@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block content %} 
-    <h1>Login</hi>
+    <h1>Авторизация</hi>
     <hr>
     {% if form.errors %}
         <p>{{ form.errors.error }}</p> 
@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <form action="{% url 'users:login' %}" method="post">
             {{ form.as_p }} 
-            {% csrf_token %}
+            {% csrf_token %} 
             <button type="submit" class="btn btn-success">submit</button> 
             </form>
             <a href="{% url 'users:password_reset' %}">Забыли пароль</a>

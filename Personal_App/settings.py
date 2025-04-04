@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'users',
+    'news',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,8 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
                 BASE_DIR / 'main/templates/main',
-                BASE_DIR / 'users/templates/users'
+                BASE_DIR / 'users/templates/users',
+                BASE_DIR / 'news/templates/news',
             ],
         'APP_DIRS': True,
         'OPTIONS': {

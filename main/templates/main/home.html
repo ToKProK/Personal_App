@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %} 
-<hl1>Home page</h1> 
+<h1 >Главная</h1> 
     <hr>
     {% if user.is_authenticated %} 
         <a href="{% url 'users:logout' %}">Logout</a>

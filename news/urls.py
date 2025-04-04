@@ -16,20 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import news.urls
-import users
-import users.urls
-#from users.views import Register
+from . import views
 
-from main import views
-
+app_name = "news" # ВАЖНО
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name='home'),
-    path('about/', views.about, name='about'),
-    #path('', include('django.contrib.auth.urls')),
-    #path('register/', Register.as_view(), name='register'),
-    path('users/', include(users.urls, namespace='users')),
-    path('', include(news.urls, namespace='news')),
+    path('news/', views.news, name='news')
 ]

@@ -26,3 +26,6 @@ class Register(View):
             'form' : form
         }
         return render(request, self.template_name, context)
+
+def user_account(request): # Страница с аккаунтом
+    return render(request, 'users/account.html')
