@@ -1,4 +1,60 @@
 {% extends 'base.html' %} 
+
+{% load static %}
+{% block news_css %}
+    <!-- Подключаем специфичные стили для этой страницы -->
+    <link type="text/css"  href="{% static 'news/css/news_css_style.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+
+
 {% block content %} 
-<h1>Новости</h1>
+<div class="news-container">
+    <h1 class="news-title">Последние новости</h1>
+    
+    <!-- Блок новостей -->
+    <div class="news-grid">
+        <!-- Новость 1 -->
+        <article class="news-card">
+            <div class="news-image" style="background-image: url('https://source.unsplash.com/random/600x400/?tech')"></div>
+            <div class="news-content">
+                <span class="news-date">15 октября 2023</span>
+                <h3>Запуск нового функционала</h3>
+                <p>Мы рады представить обновленную версию платформы с улучшенным интерфейсом и новыми возможностями...</p>
+                <a href="#" class="news-read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Новость 2 -->
+        <article class="news-card">
+            <div class="news-image" style="background-image: url('https://source.unsplash.com/random/600x400/?meeting')"></div>
+            <div class="news-content">
+                <span class="news-date">10 октября 2023</span>
+                <h3>Итоги ежегодной конференции</h3>
+                <p>Более 500 участников собрались на нашей ежегодной встрече, чтобы обсудить будущее отрасли...</p>
+                <a href="#" class="news-read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <!-- Новость 3 -->
+        <article class="news-card">
+            <div class="news-image" style="background-image: url('https://source.unsplash.com/random/600x400/?office')"></div>
+            <div class="news-content">
+                <span class="news-date">5 октября 2023</span>
+                <h3>Новые партнерские программы</h3>
+                <p>Мы запускаем серию совместных проектов с ведущими компаниями в нашей сфере...</p>
+                <a href="#" class="news-read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        <a href="#" class="page-link active">1</a>
+        <a href="#" class="page-link">2</a>
+        <a href="#" class="page-link">3</a>
+        <a href="#" class="page-link next">Следующая <i class="fas fa-angle-right"></i></a>
+    </div>
+</div>
 {% endblock %}

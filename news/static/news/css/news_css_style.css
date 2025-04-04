@@ -1,0 +1,137 @@
+/* Дополнения к предыдущим стилям header'а */
+
+/* Основной контейнер новостей */
+.news-container {
+    max-width: 1200px;
+    margin: 100px auto 50px;
+    padding: 0 20px;
+}
+
+.news-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    position: relative;
+}
+
+.news-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: #3498db;
+    margin: 15px auto 0;
+}
+
+/* Сетка новостей */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+/* Карточка новости */
+.news-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.news-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.news-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.news-content {
+    padding: 25px;
+}
+
+.news-date {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.news-content h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.news-content p {
+    color: #34495e;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.news-read-more {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.news-read-more i {
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+
+.news-read-more:hover {
+    color: #2980b9;
+}
+
+.news-read-more:hover i {
+    transform: translateX(5px);
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid #ddd;
+}
+
+.page-link:hover, .page-link.active {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+.page-link.next {
+    padding: 10px 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .news-title {
+        font-size: 2rem;
+    }
+}

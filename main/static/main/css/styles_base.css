@@ -105,9 +105,6 @@
 h1 {
     font-size: 28px;
     font-weight: bold;
-    margin-right: 30px;
     color: black;
-    display: flex;
-    align-items: center;
-    height: 100%;
+    margin: 0 0 20px 0; /* Унифицированные отступы */
 }
