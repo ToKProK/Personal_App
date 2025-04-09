@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block news_post_css %}
-<link type="text/css" href="{% static 'main/css/styles_base.css' %}" rel="stylesheet">
 <link type="text/css" href="{% static 'news/css/news_detail_style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
@@ -20,10 +19,10 @@
 
     <!-- Заголовок новости -->
     <header class="news-header">
-        <h1 class="news-title">{{ news_item.title }}</h1>
+        <h1 class="news-title">{{ title }}</h1>
         <div class="news-meta">
-            <span class="news-date"><i class="far fa-calendar-alt"></i> {{ news_item.pub_date|date:"d.m.Y" }}</span>
-            <span class="news-views"><i class="far fa-eye"></i> {{ news_item.views }}</span>
+            <span class="news-date"><i class="far fa-calendar-alt"></i> {{ news.time_create|date:"d.m.Y" }}</span>
+            <span class="news-views"><i class="far fa-eye"></i> {{ news_item.views }}</span> <!-- Пока нету -->
             <span class="news-category"><i class="fas fa-tag"></i> {{ news_item.category.name }}</span>
         </div>
     </header>
@@ -39,7 +38,7 @@
 
         <!-- Текст новости -->
         <div class="news-text">
-            {{ news_item.full_text|safe }}
+            {{ news.content|linebreaks }}
         </div>
 
         <!-- Дополнительные медиа -->

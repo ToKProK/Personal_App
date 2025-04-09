@@ -1,0 +1,241 @@
+/* Контейнер новости */
+.news-detail-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Хлебные крошки */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.breadcrumbs a {
+    color: #3498db;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.breadcrumbs i {
+    font-size: 0.7rem;
+    margin: 0 5px;
+    color: #95a5a6;
+}
+
+.breadcrumbs span {
+    margin-left: 5px;
+    color: #7f8c8d;
+}
+
+/* Шапка новости */
+.news-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.news-title {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.news-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.news-meta i {
+    margin-right: 5px;
+    color: #3498db;
+}
+
+/* Основное содержимое */
+.news-image {
+    margin-bottom: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.news-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.image-caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.news-text {
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+}
+
+.news-text p {
+    margin-bottom: 20px;
+}
+
+.news-text h2, .news-text h3 {
+    color: #2c3e50;
+    margin: 30px 0 20px;
+}
+
+.news-text ul, .news-text ol {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+/* Видео */
+.news-video {
+    margin: 40px 0;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.news-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+/* Теги */
+.news-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.news-tags span {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.tag {
+    background: #f5f7fa;
+    color: #3498db;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.tag:hover {
+    background: #3498db;
+    color: white;
+}
+
+/* Похожие новости */
+.related-news {
+    margin: 60px 0;
+}
+
+.related-news h3 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.related-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.related-item:hover {
+    transform: translateY(-5px);
+}
+
+.related-image {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+}
+
+.related-item h4 {
+    padding: 15px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.related-date {
+    display: block;
+    padding: 0 15px 15px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+/* Кнопка назад */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    background: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-back i {
+    margin-right: 8px;
+}
+
+.btn-back:hover {
+    background: #2980b9;
+    transform: translateX(-5px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .news-title {
+        font-size: 2rem;
+    }
+    
+    .news-text {
+        font-size: 1rem;
+    }
+    
+    .related-grid {
+        grid-template-columns: 1fr;
+    }
+}
