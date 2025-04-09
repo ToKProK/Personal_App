@@ -22,5 +22,5 @@ app_name = "news" # ВАЖНО
 
 urlpatterns = [
     path('news/', views.news, name='news'),
-    path('post/<int:news_post_id>/', views.show_news_post, name='show_news')
+    path('news/<slug:news_post_slug>/', views.show_news_post, name='show_news')
 ]

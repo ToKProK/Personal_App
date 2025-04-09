@@ -15,46 +15,53 @@
     
     <!-- Блок новостей -->
     <div class="news-grid">
-        <!-- Новость 1 -->
+        {% for post in news_posts %}
+        <!-- Динамически генерируемые новости -->
         <article class="news-card">
-            <div class="news-image" style="background-image: url('https://source.unsplash.com/random/600x400/?tech')"></div>
+            <div class="news-image">
+                {% if post.photo %}
+                    <img src="{{ post.photo.url }}" alt="{{ post.title }}">
+                {% else %}
+                    <img src="https://source.unsplash.com/random/600x400/?tech" alt="Заглушка">
+                {% endif %}
+            </div>
             <div class="news-content">
-                <span class="news-date">15 октября 2023</span>
-                <h3>Запуск нового функционала</h3>
-                <p>Мы рады представить обновленную версию платформы с улучшенным интерфейсом и новыми возможностями...</p>
-                <a href="#" class="news-read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
+                <span class="news-date">{{ post.pub_date|date:"d E Y" }}</span>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content|linebreaks|truncatechars:150 }}</p>
+                <a href="{{ post.get_absolute_url }}" class="news-read-more">
+                    Читать далее <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </article>
-
-        <!-- Новость 2 -->
-        <article class="news-card">
-            <div class="news-image" style="background-image: url('https://source.unsplash.com/random/600x400/?meeting')"></div>
-            <div class="news-content">
-                <span class="news-date">10 октября 2023</span>
-                <h3>Итоги ежегодной конференции</h3>
-                <p>Более 500 участников собрались на нашей ежегодной встрече, чтобы обсудить будущее отрасли...</p>
-                <a href="#" class="news-read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-
-        <!-- Новость 3 -->
-        <article class="news-card">
-            <div class="news-image" style="background-image: url('https://source.unsplash.com/random/600x400/?office')"></div>
-            <div class="news-content">
-                <span class="news-date">5 октября 2023</span>
-                <h3>Новые партнерские программы</h3>
-                <p>Мы запускаем серию совместных проектов с ведущими компаниями в нашей сфере...</p>
-                <a href="#" class="news-read-more">Читать далее <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
+        {% empty %}
+        <div class="no-news">
+            <p>Новостей пока нет.</p>
+        </div>
+        {% endfor %}
     </div>
 
     <!-- Пагинация -->
+    {% if is_paginated %}
     <div class="pagination">
-        <a href="#" class="page-link active">1</a>
-        <a href="#" class="page-link">2</a>
-        <a href="#" class="page-link">3</a>
-        <a href="#" class="page-link next">Следующая <i class="fas fa-angle-right"></i></a>
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="page-link">Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Предыдущая</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a href="?page={{ num }}" class="page-link active">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Последняя</a>
+        {% endif %}
     </div>
+    {% endif %}
 </div>
 {% endblock %}

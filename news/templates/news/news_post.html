@@ -21,7 +21,7 @@
     <header class="news-header">
         <h1 class="news-title">{{ title }}</h1>
         <div class="news-meta">
-            <span class="news-date"><i class="far fa-calendar-alt"></i> {{ news.time_create|date:"d.m.Y" }}</span>
+            <span class="news-date"><i class="far fa-calendar-alt"></i> {{ news.time_create|date:"d.m.Y H:i:s" }}</span>
             <span class="news-views"><i class="far fa-eye"></i> {{ news_item.views }}</span> <!-- Пока нету -->
             <span class="news-category"><i class="fas fa-tag"></i> {{ news_item.category.name }}</span>
         </div>
