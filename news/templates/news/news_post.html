@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block news_post_css %}
+<link type="text/css" href="{% static 'main/css/styles_base.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'news/css/news_detail_style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="news-detail-container">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <a href="{% url 'home' %}">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="{% url 'news:news' %}">Новости</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>{{ news_item.title|truncatechars:30 }}</span>
+    </nav>
+
+    <!-- Заголовок новости -->
+    <header class="news-header">
+        <h1 class="news-title">{{ news_item.title }}</h1>
+        <div class="news-meta">
+            <span class="news-date"><i class="far fa-calendar-alt"></i> {{ news_item.pub_date|date:"d.m.Y" }}</span>
+            <span class="news-views"><i class="far fa-eye"></i> {{ news_item.views }}</span>
+            <span class="news-category"><i class="fas fa-tag"></i> {{ news_item.category.name }}</span>
+        </div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <article class="news-content">
+        <!-- Изображение новости -->
+        <div class="news-image">
+            {% if news.photo %}
+            <p><img scr="{{post.photo.url}}"></img></p>
+            {%endif%}
+        </div>
+
+        <!-- Текст новости -->
+        <div class="news-text">
+            {{ news_item.full_text|safe }}
+        </div>
+
+        <!-- Дополнительные медиа -->
+        {% if news_item.video_url %}
+        <div class="news-video">
+            <iframe src="{{ news_item.video_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+        {% endif %}
+
+        <!-- Теги -->
+        {% if news_item.tags.all %}
+        <div class="news-tags">
+            <span>Теги:</span>
+            {% for tag in news_item.tags.all %}
+            <a href="{% url 'news_by_tag' tag.slug %}" class="tag">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </article>
+
+    <!-- Дополнительные материалы -->
+    {% if related_news %}
+    <aside class="related-news">
+        <h3>Похожие новости</h3>
+        <div class="related-grid">
+            {% for item in related_news %}
+            <div class="related-item">
+                <a href="{% url 'news_detail' item.slug %}">
+                    <div class="related-image" style="background-image: url('{{ item.image.url }}');"></div>
+                    <h4>{{ item.title }}</h4>
+                    <span class="related-date">{{ item.pub_date|date:"d.m.Y" }}</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </aside>
+    {% endif %}
+
+    <!-- Кнопка возврата -->
+    <div class="back-button">
+        <a href="{% url 'news:news' %}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Все новости
+        </a>
+    </div>
+</div>
+{% endblock %}

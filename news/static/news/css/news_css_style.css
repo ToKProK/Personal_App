@@ -8,11 +8,14 @@
 }
 
 .news-title {
-    text-align: center;
+    text-align: center !important; /* Принудительное центрирование */
     color: #2c3e50;
-    margin-bottom: 50px;
+    margin: 0 auto 50px !important; /* Сброс маргинов */
     font-size: 2.5rem;
     position: relative;
+    width: 100%; /* Явное задание ширины */
+    display: block; /* Переопределение возможных flex-стилей */
+    font-family: Arial, sans-serif; /* Явное указание шрифта */
 }
 
 .news-title::after {
@@ -22,6 +25,9 @@
     height: 4px;
     background: #3498db;
     margin: 15px auto 0;
+    position: relative; /* Изменено с absolute (если было) */
+    left: auto; /* Сброс позиционирования */
+    right: auto;
 }
 
 /* Сетка новостей */
