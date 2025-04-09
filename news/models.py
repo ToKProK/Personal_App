@@ -1,4 +1,5 @@
 from os import times_result
+from tabnanny import verbose
 from django.db import models
 from django.urls import reverse
 
@@ -28,6 +29,8 @@ class News(models.Model): # 23 Вид
         return self.title
     
     class Meta: # Сортировка БД через Django (р21)
+        verbose_name = "Новости"#Название в админ панели 37 вид
+        verbose_name_plural= "Новости"#Название в админ панели
         ordering = ['-time_create'] # Делаем сортировку по дате, сначала новые
         indexes = [
             models.Index(fields=['-time_create'])
