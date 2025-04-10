@@ -24,6 +24,5 @@ app_name = "users"
 urlpatterns = [
     path('users/register/', views.Register.as_view(), name='register'),
     path('', include('django.contrib.auth.urls')),
-    path('account/', views.user_account, name='user_account'), # Страница с аккаунтом
     path('profile/', views.ProfileUser.as_view(), name='profile'),
 ]

@@ -30,9 +30,6 @@ class Register(View):
         }
         return render(request, self.template_name, context)
 
-def user_account(request): # Страница с аккаунтом
-    return render(request, 'users/account.html')
-
 
 class ProfileUser(LoginRequiredMixin, UpdateView):
     model = get_user_model()
