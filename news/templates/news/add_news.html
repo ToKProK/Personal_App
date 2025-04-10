@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="" method="post" >
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    <p><label class="from-label" for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>{{form.title}}</p>
+    <div class="form-error">{{ form.title.errors }}</div>
+    <p><label class="from-label" for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>{{form.content}}</p>
+    <div class="form-error">{{ form.content.errors }}</div>
+    <p><label class="from-label" for="{{ form.is_published.id_for_label }}">{{ form.is_published.label }}</label>{{form.is_published}}</p>
+    <div class="form-error">{{ form.is_published.errors }}</div>
+    <p><button type="submit">Отпавить</button></p>
+</form>
+
+{% endblock  %}
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+    <p><label class="from-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{f.title}}</p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+</form>
+
+{% endblock  %}  {% endcomment %}

@@ -10,6 +10,9 @@
 
 
 {% block content %} 
+{% if perms.news.add_news %}
+<a href="{% url 'news:add_news' %}" class="login-btn">Добавить новость</a>
+{% endif %}
 <div class="news-container">
     <h1 class="news-title">Последние новости</h1>
     

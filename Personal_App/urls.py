@@ -30,6 +30,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     #path('', include('django.contrib.auth.urls')),
     #path('register/', Register.as_view(), name='register'),
-    path('users/', include(users.urls, namespace='users')),
+    path('users/', include('users.urls', namespace='users')),
     path('', include(news.urls, namespace='news')),
 ]
