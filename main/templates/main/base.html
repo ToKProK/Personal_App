@@ -7,8 +7,10 @@
     <title>Главная | МойСайт</title>
     <link type="text/css"  href="{% static 'main/css/styles_base.css'%}" rel="stylesheet">
     <!-- Блок для доп. стилей из дочерних шаблонов -->
+    {% block profile_css %}{% endblock %}
     {% block news_css %}{% endblock %}
     {% block news_post_css %}{% endblock %}
+    
 </head>
 <body>
     <!-- Верхняя панель -->
@@ -20,12 +22,14 @@
                 <li><a href="{% url 'news:news' %}">Новости</a></li>
             </ul>
         </div>
-    {% if user.is_authenticated %} 
-        <a href="{% url 'users:profile' %}" class="login-btn">{{user.username}}</a>
-        <a href="{% url 'users:user_account' %}" class="login-btn">Выход</a>
-    {% else %}
-        <a href="{% url 'users:login' %}" class="login-btn">Войти</a>
-    {% endif %}
+        <div class="user-actions">  <!-- Добавлен новый контейнер -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:profile' %}" class="login-btn">{{user.username}}</a>
+                <a href="{% url 'users:logout' %}" class="login-btn">Выход</a>
+            {% else %}
+                <a href="{% url 'users:login' %}" class="login-btn">Войти</a>
+            {% endif %}
+        </div>
     </nav>
     {% block content %}
     {% endblock %}

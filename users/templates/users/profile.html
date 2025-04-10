@@ -1,4 +1,71 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
+{% block profile_css %}
+<link type="text/css" href="{% static 'users/css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1 class="profile-title">Профиль пользователя</h1>
+        <div class="profile-avatar">
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="Аватар">
+            {% else %}
+                <div class="avatar-placeholder">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <form class="profile-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        
+        <div class="form-grid">
+            {% for f in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                {{ f }}
+                <div class="form-error">{{ f.errors }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-actions">
+            <button class="save-btn" type="submit">Сохранить изменения</button>
+            <a href="{% url 'users:password_change' %}" class="change-password-btn">Изменить пароль</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
 
 {% block content %}
 <h1>Профиль</h1>
@@ -14,4 +81,4 @@
     <p><button type="submit">Сохранить</button></p>
 </form>
 
-{% endblock %}
+{% endblock %} {% endcomment %}

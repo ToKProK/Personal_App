@@ -1,4 +1,55 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block news_post_css %}
+<link type="text/css" href="{% static 'news/css/add_news.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="add-news-container">
+    <h1 class="add-news-title">{{ title }}</h1>
+    <form class="news-form" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        
+        <div class="form-group">
+            <label class="form-label" for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            <div class="form-error">{{ form.title.errors }}</div>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+            {{ form.content }}
+            <div class="form-error">{{ form.content.errors }}</div>
+        </div>
+        
+        <div class="form-group checkbox-group">
+            <label class="form-label" for="{{ form.is_published.id_for_label }}">{{ form.is_published.label }}</label>
+            {{ form.is_published }}
+            <div class="form-error">{{ form.is_published.errors }}</div>
+        </div>
+        
+        <div class="form-group">
+            <button class="submit-btn" type="submit">Опубликовать</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "base.html" %}
 
 {% block content %}
 <h1>{{ title }}</h1>
@@ -15,19 +66,4 @@
 </form>
 
 {% endblock  %}
-
-
-{% comment %} {% extends "base.html" %}
-
-{% block content %}
-<h1>{{ title }}</h1>
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-error">{{ form.non_field_errors }}</div>
-    {% for f in form %}
-    <p><label class="from-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{f.title}}</p>
-    <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
-</form>
-
-{% endblock  %}  {% endcomment %}
+ {% endcomment %}

@@ -9,10 +9,10 @@
 /* Градиент для всей верхней панели */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;  /* Оставляем это свойство */
     align-items: center;
-    background: linear-gradient(135deg, #2c3e50, #1a2530); /* Градиент на всю панель */
-    padding: 0 40px; /* Уменьшил вертикальные отступы для лучшего вида */
+    background: linear-gradient(135deg, #2c3e50, #1a2530);
+    padding: 0 40px;
     color: white;
     height: 80px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -107,4 +107,9 @@ h1 {
     font-weight: bold;
     color: black;
     margin: 0 0 20px 0; /* Унифицированные отступы */
+}
+.user-actions {
+    display: flex;
+    gap: 10px;  /* Расстояние между кнопками */
+    align-items: center;
 }

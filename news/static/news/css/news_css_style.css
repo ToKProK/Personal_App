@@ -141,3 +141,38 @@
         font-size: 2rem;
     }
 }
+/* Стили для контейнера и кнопки добавления новости */
+.add-news-container {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-news-btn {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.add-news-btn:hover {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Обновите отступы news-container */
+.news-container {
+    max-width: 1200px;
+    margin: 20px auto 50px; /* Уменьшил верхний отступ */
+    padding: 0 20px;
+}
