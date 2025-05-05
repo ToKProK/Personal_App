@@ -11,6 +11,11 @@ from news.models import News
 #     is_published = forms.BooleanField(required=False, label="Опубликовать", initial=True)
 #     # 46
 class AddNewsForm(forms.ModelForm):
+    is_published = forms.BooleanField( # Это настройки галочки "опубликовать", если их не поставить то поставить галочку будет необходимо поставить.
+        required=False,  # Необязательное поле
+        initial=True,     # По умолчанию галочка стоит
+        label="Опубликовать"
+    )
     class Meta:
         model = News
         fields = ['title', 'content', 'photo', 'is_published']

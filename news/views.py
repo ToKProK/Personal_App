@@ -1,3 +1,5 @@
+from django.views.generic import ListView
+from re import template
 from django.shortcuts import get_object_or_404, redirect, render
 from pkg_resources import parse_requirements
 
@@ -9,12 +11,23 @@ from .models import News
 from django.core.paginator import Paginator
 
 # Create your views here.
-def news(request): # Переход на страницу новостей
-    news_posts = News.published.all() # published это новый созданный менеджер, вместо objects
-    data = {
-        'news_posts' : news_posts,
-    }
-    return render(request, 'news.html', context=data)
+# def news(request): # Переход на страницу новостей
+#     news_posts = News.published.all() # published это новый созданный менеджер, вместо objects
+#     data = {
+#         'news_posts' : news_posts,
+#     }
+#     return render(request, 'news.html', context=data)
+
+
+class NewsHome(ListView): # Переход на страницу новостей  #52
+    model = News
+    template_name = 'news/news.html'
+    context_object_name = 'news_posts'
+    paginate_by = 6 # Пашинация (страницы) # 58
+    def get_queryset(self):
+        return News.published.all()
+    
+
 
 def show_news_post(request, news_post_slug): # Переход на конкретную новость
     news_post = get_object_or_404(News, slug=news_post_slug)

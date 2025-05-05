@@ -48,6 +48,7 @@
 
     <!-- Пагинация -->
     {% if is_paginated %}
+    {% block navigation %}
     <div class="pagination">
         {% if page_obj.has_previous %}
             <a href="?page=1" class="page-link">Первая</a>
@@ -67,6 +68,8 @@
             <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Последняя</a>
         {% endif %}
     </div>
+    {%endblock%}
     {% endif %}
+    
 </div>
 {% endblock %}
