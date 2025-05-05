@@ -1,8 +1,9 @@
 from turtle import title
 from django import forms
+from django.contrib.auth import get_user_model
 from django.forms import widgets
 
-from news.models import News 
+from news.models import News
 
 # class AddNewsForm(forms.Form): # Метод не связанный с django моделями
 #     title = forms.CharField(max_length=255, label="Название")

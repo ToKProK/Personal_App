@@ -31,13 +31,9 @@ def addnews(request): # 44 VID
     if request.method == "POST": # Если POST
         form = AddNewsForm(request.POST, request.FILES)
         if form.is_valid():
-            # #print(form.cleaned_data)
-            # try:
-            #     News.objects.create(**form.cleaned_data)
-            #     return redirect('news:news')
-            # except:
-            #     form.add_error("None", "Ошибка создания новости")
-            form.save()
+            news_item = form.save(commit=False)  # Не сохраняем сразу в БД
+            news_item.user = request.user  # Устанавливаем текущего пользователя новости
+            news_item.save()  # Теперь сохраняем с пользователем
             return redirect('news:news')
     else: # Если страница просто была запущенна
         form = AddNewsForm()

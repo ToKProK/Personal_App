@@ -3,6 +3,8 @@ from tabnanny import verbose
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+
+from users.forms import User
 # Create your models here.
 
 def translit_to_eng(value: str) -> str:
@@ -33,9 +35,9 @@ class News(models.Model): # 23 Вид
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.PUBLISHED, verbose_name="Статус") #38
     photo = models.ImageField(upload_to="news_photos/%Y/%m/%d/", default=None, blank=True, null=True, verbose_name="Фото")
-
     objects = models.Manager()
     published = PublishedManager()
+    user = models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title
