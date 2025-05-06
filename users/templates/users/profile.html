@@ -11,8 +11,8 @@
     <div class="profile-header">
         <h1 class="profile-title">Профиль пользователя</h1>
         <div class="profile-avatar">
-            {% if user.profile.avatar %}
-                <img src="{{ user.profile.avatar.url }}" alt="Аватар">
+            {% if user.photo %}
+                <img src="{{ user.photo.url }}" alt="Фотография пользователя">
             {% else %}
                 <div class="avatar-placeholder">
                     <i class="fas fa-user-circle"></i>

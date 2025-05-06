@@ -34,7 +34,7 @@ class News(models.Model): # 23 Вид
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.PUBLISHED, verbose_name="Статус") #38
-    photo = models.ImageField(upload_to="news_photos/%Y/%m/%d/", default=None, blank=True, null=True, verbose_name="Фото")
+    photo = models.ImageField(upload_to="news_photos/%Y/", default=None, blank=True, null=True, verbose_name="Фото")
     objects = models.Manager()
     published = PublishedManager()
     user = models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True)
