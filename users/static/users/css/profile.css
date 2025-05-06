@@ -178,3 +178,7 @@
         padding: 20px;
     }
 }
+.avatar-placeholder i {
+    font-size: 5rem;
+    color: #7e8a98;
+}
