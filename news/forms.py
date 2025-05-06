@@ -1,3 +1,4 @@
+from dataclasses import fields
 from turtle import title
 from django import forms
 from django.contrib.auth import get_user_model
@@ -10,7 +11,9 @@ from news.models import News
 #     content = forms.CharField(widget=forms.Textarea(), required=False, label="Описание")
 #     is_published = forms.BooleanField(required=False, label="Опубликовать", initial=True)
 #     # 46
-class AddNewsForm(forms.ModelForm):
+
+# Форма для добавления новости
+class AddEditNewsForm(forms.ModelForm):
     is_published = forms.BooleanField( # Это настройки галочки "опубликовать", если их не поставить то поставить галочку будет необходимо поставить.
         required=False,  # Необязательное поле
         initial=True,     # По умолчанию галочка стоит

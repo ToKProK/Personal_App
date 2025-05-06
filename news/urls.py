@@ -15,14 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from os import name
+from xml.dom.minidom import Document
 from django.contrib import admin
+from django.conf.urls.static import static
 from django.urls import path, include
+
+from Personal_App import settings
 from . import views
 
 app_name = "news" # ВАЖНО
 
 urlpatterns = [
-    path('news/add_news/', views.addnews, name='add_news'),
+    path('news/add_news/', views.AddNewsPost.as_view(), name='add_news'),
     path('news/<slug:news_post_slug>/', views.show_news_post, name='show_news'),
     path('news/', views.NewsHome.as_view(), name='news'),
+    path('news/edit/<slug:slug>/', views.EditNewsPost.as_view(), name='edit_news'),
+    path('news/delete/<slug:slug>/', views.NewsDeleteView.as_view(), name='delete_news'),
 ]
+
+if settings.DEBUG:  # Изображения
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -126,3 +126,45 @@
         gap: 20px;
     }
 }
+/* Стили для поля загрузки файла */
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-file-input {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border: 1px dashed #3498db;
+    border-radius: 6px;
+    color: #3498db;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.custom-file-input:hover {
+    background: #e8f4fc;
+    border-color: #2980b9;
+    color: #2980b9;
+}
+
+.file-input-button {
+    padding: 8px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.file-input-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

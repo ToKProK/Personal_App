@@ -30,10 +30,14 @@
     <!-- Основное содержимое -->
     <article class="news-content">
         <!-- Изображение новости -->
-        <div class="news-image">
+        <div class="news-image-container">
             {% if news.photo %}
-            <p><img scr="{{post.photo.url}}"></img></p>
-            {%endif%}
+                <img src="{{ news.photo.url }}" alt="{{ news.title }}" class="news-image">
+            {% else %}
+                <div class="news-image-placeholder">
+                    <i class="fas fa-image"></i>
+                </div>
+            {% endif %}
         </div>
 
         <!-- Текст новости -->
@@ -78,9 +82,17 @@
     {% endif %}
 
     <!-- Кнопка возврата -->
-    <div class="back-button">
+    <div class="back-buttons">
         <a href="{% url 'news:news' %}" class="btn-back">
             <i class="fas fa-arrow-left"></i> Все новости
+        </a>
+        {% comment %} ССЫЛКА НЕ КОРРЕКТНА, ЭТО ЗАГЛУГШКА {% endcomment %}
+        <a href="{% url 'news:edit_news' news.slug %}" class="btn-back btn-edit"> 
+            <i class="fas fa-edit"></i> Редактировать
+        </a>
+        {% comment %} ССЫЛКА НЕ КОРРЕКТНА, ЭТО ЗАГЛУГШКА {% endcomment %}
+        <a href="{% url 'news:delete_news' news.slug %}" class="btn-back btn-del"> 
+            <i class="fas fa-trash-alt"></i> Удалить
         </a>
     </div>
 </div>

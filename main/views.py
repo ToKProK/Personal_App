@@ -20,6 +20,6 @@ def about(request):
     return render(request, 'main/about.html', {'form' : form,})
 
 def handle_uploaded_file(f): # 48
-    with open(f"main/images_about/{f.name}", "wb+") as destination:
+    with open(f"images_about/{f.name}", "wb+") as destination:
         for chunk in f.chunks():
             destination.write(chunk)

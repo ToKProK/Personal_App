@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block news_post_css %}
+    <link type="text/css" href="{% static 'news/css/news_detail_style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="news-detail-container">
+    
+    <div class="news-header">
+        <h1 class="news-title">Удаление новости</h1>
+        <p class="news-meta">
+            Вы действительно хотите удалить новость: <strong>"{{ object.title }}"</strong>?
+        </p>
+    </div>
+
+    <div class="back-buttons">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-back btn-del">
+                <i class="fas fa-trash-alt"></i> Удалить
+            </button>
+        </form>
+
+        <a href="{% url 'news:show_news' object.slug %}" class="btn-back btn-edit">
+            <i class="fas fa-arrow-left"></i> Отмена
+        </a>
+    </div>
+</div>
+{% endblock %}

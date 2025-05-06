@@ -8,7 +8,7 @@
 {% block content %}
 <div class="add-news-container">
     <h1 class="add-news-title">{{ title }}</h1>
-    <form class="news-form" action="" method="post" enctype="multipart/form-data">
+    <form class="news-form" action="" method="post" enctype='multipart/form-data'>
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
         
@@ -17,19 +17,32 @@
             {{ form.title }}
             <div class="form-error">{{ form.title.errors }}</div>
         </div>
-        
+
         <div class="form-group">
             <label class="form-label" for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
             {{ form.content }}
             <div class="form-error">{{ form.content.errors }}</div>
         </div>
         
+
+        {% comment %} Выбор изоюбражения {% endcomment %}
+        <div class="form-group">
+            <label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
+            <div class="file-input-wrapper">
+                {{ form.photo }}
+                <label for="{{ form.photo.id_for_label }}" class="custom-file-input">
+                    <span class="file-input-button">Выберите файл</span>
+                    <span class="file-input-text" id="file-name">Файл не выбран</span>
+                </label>
+            </div>
+            <div class="form-error">{{ form.photo.errors }}</div>
+        </div>
+        {% comment %} Галочка опубликовать {% endcomment %}
         <div class="form-group checkbox-group">
             <label class="form-label" for="{{ form.is_published.id_for_label }}">{{ form.is_published.label }}</label>
             {{ form.is_published }}
             <div class="form-error">{{ form.is_published.errors }}</div>
         </div>
-        
         <div class="form-group">
             <button class="submit-btn" type="submit">Опубликовать</button>
         </div>

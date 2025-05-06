@@ -23,11 +23,13 @@
         {% for post in news_posts %}
         <!-- Динамически генерируемые новости -->
         <article class="news-card">
-            <div class="news-image">
+            <div class="news-image-container">
                 {% if post.photo %}
-                    <img src="{{ post.photo.url }}" alt="{{ post.title }}">
+                    <img src="{{ post.photo.url }}" alt="{{ post.title }}" class="news-image">
                 {% else %}
-                    <img src="https://source.unsplash.com/random/600x400/?tech" alt="Заглушка">
+                    <div class="news-image-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
                 {% endif %}
             </div>
             <div class="news-content">

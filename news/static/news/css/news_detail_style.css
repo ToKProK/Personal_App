@@ -1,3 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Нормализация форм */
+  input, textarea, button {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
 /* Контейнер новости */
 .news-detail-container {
     max-width: 1200px;
@@ -238,4 +250,101 @@
     .related-grid {
         grid-template-columns: 1fr;
     }
+}
+/* Контейнер для кнопок */
+.news-detail-container .back-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+/* Базовые стили кнопок */
+.news-detail-container .btn-back {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    background: #3498db;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Стиль для кнопки редактирования */
+.news-detail-container .btn-edit {
+    background: #27ae60;
+}
+/* Стиль для кнопки удаления */
+.news-detail-container .btn-del {
+    background: #ae2727;
+}
+
+/* Эффект при наведении */
+.news-detail-container .btn-back:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 7px 15px rgba(0,0,0,0.2);
+    background: #2980b9;
+}
+
+.news-detail-container .btn-edit:hover {
+    background: #219653;
+    transform: translateY(-5px);
+}
+
+.news-detail-container .btn-del:hover {
+    background: #962121;
+    transform: translateY(-5px);
+}
+/* Иконки */
+.news-detail-container .btn-back i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.news-detail-container .btn-back:hover i {
+    transform: translateY(-2px);
+}
+
+/* Эффект "нажатия" */
+.news-detail-container .btn-back:active {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+}
+btn-edit
+.news-image-container {
+    display: inline-block; /* Меняем с inline-block */
+    margin: 0 auto 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    line-height: 0; /* Важное правило - убирает зазор */
+    font-size: 0; /* Дополнительная страховка */
+    max-width: 100%;
+    padding: 0; /* Убедитесь, что нет внутренних отступов */
+}
+
+.news-image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain; /* Сохраняет пропорции без обрезки */
+    margin: 0; /* Убираем возможные отступы */
+}
+
+.news-image-placeholder {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f7fa;
+    color: #bdc3c7;
+    font-size: 3rem;
 }

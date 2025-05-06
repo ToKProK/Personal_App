@@ -64,3 +64,7 @@ class News(models.Model): # 23 Вид
         slug_source = f"{self.title} {content_part}"
         self.slug = slugify(translit_to_eng(slug_source))
         super().save(*args, **kwargs)
+
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='image_uploads')
