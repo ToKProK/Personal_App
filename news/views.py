@@ -70,6 +70,16 @@ class AddNewsPost(CreateView):
     extra_context = {
         'title': "Добавление новости",
     }
+    # Присвоение автора к новости 63 вид 7:44
+    # Функция вызвается если форма проверена и заполнена  
+    def form_valid(self, form):
+        # Создадим объект новой записи (без добаление в бд)
+        w = form.save(commit=False)
+        # получение текущего пользоватьеля и происвоение его новости
+        w.user = self.request.user
+        
+        return super().form_valid(form)
+
 
 class EditNewsPost(UpdateView):
 

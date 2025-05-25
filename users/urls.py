@@ -18,11 +18,15 @@ import profile
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-
+from django.contrib.auth.views import LogoutView
 app_name = "users"
 
 urlpatterns = [
-    path('users/register/', views.Register.as_view(), name='register'),
-    path('', include('django.contrib.auth.urls')),
+    # path('users /register/', views.Register.as_view(), name='register'),
+    
     path('profile/', views.ProfileUser.as_view(), name='profile'),
+    path('login/', views.LoginUser.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path("register/",  views.RegisterUser.as_view(), name="register"),
+    path('', include('django.contrib.auth.urls')),
 ]

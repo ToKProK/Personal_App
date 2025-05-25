@@ -34,7 +34,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.User'
+# Перенаправления пользователей 62 вид 5:05
 LOGIN_REDIRECT_URL = '/'
+#При выходе перенаправляет на главную страницу
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'users:login'
 

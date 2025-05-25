@@ -1,5 +1,6 @@
 from os import times_result
 from tabnanny import verbose
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -37,7 +38,7 @@ class News(models.Model): # 23 Вид
     photo = models.ImageField(upload_to="news_photos/%Y/", default=None, blank=True, null=True, verbose_name="Фото")
     objects = models.Manager()
     published = PublishedManager()
-    user = models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title

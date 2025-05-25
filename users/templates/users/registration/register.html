@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 
-{% block content %} 
-<h1>Register</h1>
-<hr>
-<form action="{% url 'users:register' %}" method="post">
+{% block content %}
+<h1>Регистрация</h1>
+
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}  <!-- Лучше использовать as_p для красивого отображения -->
-    <button type="submit" class="btn btn-success">Submit</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+    <div class="form-error">{{ form.non_field_errors }}</div>
+    {% for f in form %}
+    <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+    <p><button type="submit">Регистрация</button></p>
 </form>
+
 {% endblock %}
