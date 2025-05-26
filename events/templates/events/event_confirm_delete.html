@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block event_css %}
+    <link type="text/css" href="{% static 'events/css/event_detail_style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="event-detail-container">
+    
+    <div class="event-header">
+        <h1 class="event-title">Удаление мероприятия</h1>
+        <p class="event-meta">
+            Вы действительно хотите удалить мероприятие: <strong>"{{ object.title }}"</strong>?
+        </p>
+    </div>
+
+    <div class="back-buttons">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-back btn-del">
+                <i class="fas fa-trash-alt"></i> Удалить
+            </button>
+        </form>
+
+        <a href="{% url 'events:event_detail' object.slug %}" class="btn-back btn-edit">
+            <i class="fas fa-arrow-left"></i> Отмена
+        </a>
+    </div>
+</div>
+{% endblock %}

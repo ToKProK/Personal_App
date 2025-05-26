@@ -1,0 +1,144 @@
+/* Контейнер */
+.add-event-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Заголовки */
+.add-event-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #444;
+}
+
+/* Ошибки */
+.form-error {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Поля */
+input, textarea, select {
+    padding: 8px 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Файл */
+.file-input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-file-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.file-input-button {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.file-input-text {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Чекбокс */
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Кнопка отправки */
+.submit-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+.btn-exit-edit {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 8px 14px;
+    background-color: #d9534f; /* красный цвет */
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-exit-edit:hover {
+    background-color: #c9302c;
+}
+
+.btn-exit-edit-button {
+    font-size: 14px;
+    color: #555;
+    background-color: transparent;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 5px 12px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-exit-edit-button:hover {
+    background-color: #f8d7da; /* светло-розовый фон */
+    border-color: #d9534f; /* красная рамка */
+    color: #d9534f;
+}

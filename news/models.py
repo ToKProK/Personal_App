@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from transliterate import translit
 
 from users.forms import User
 # Create your models here.
@@ -58,14 +59,23 @@ class News(models.Model): # 23 Вид
     #     self.slug = slugify(translit_to_eng(self.title))
     #     super().save(*args, **kwargs)
 
-    def save(self, *args, **kwargs): # При сохранании будет автоматический создаваться slug
-        # Берем первые 5 букв из content (если они есть)
-        content_part = self.content[:5] if self.content else ''
-        # Объединяем title и первые 5 букв content
-        slug_source = f"{self.title} {content_part}"
-        self.slug = slugify(translit_to_eng(slug_source))
-        super().save(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            if self.title:
+                # Транслитерируем кириллицу в латиницу
+                slug_base = translit(self.title, 'ru', reversed=True)
+                self.slug = slugify(slug_base)
+            else:
+                import uuid
+                self.slug = str(uuid.uuid4())[:8]
+
+            original_slug = self.slug
+            counter = 1
+            while News.objects.filter(slug=self.slug).exists():
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
+        super().save(*args, **kwargs)
 
 class UploadFiles(models.Model):
     file = models.FileField(upload_to='image_uploads')

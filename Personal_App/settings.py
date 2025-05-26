@@ -76,6 +76,7 @@ TEMPLATES = [
                 BASE_DIR / 'main/templates/main',
                 BASE_DIR / 'users/templates/users',
                 BASE_DIR / 'news/templates/news',
+                BASE_DIR / 'events/templates/events',
             ],
         'APP_DIRS': True,
         'OPTIONS': {

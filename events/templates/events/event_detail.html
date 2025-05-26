@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block events_css %}
+    <link type="text/css" href="{% static 'events/css/event_detail_style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="event-detail-container">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs">
+        <a href="{% url 'home' %}">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="{% url 'events:events' %}">Мероприятия</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>{{ event.title|truncatechars:30 }}</span>
+    </nav>
+
+    <!-- Заголовок мероприятия -->
+    <header class="event-header">
+        <h1 class="event-title">{{ event.title }}</h1>
+        <div class="event-meta">
+            <span class="event-type"><i class="fas fa-tag"></i> {{ event.get_event_type_display }}</span>
+            <span class="event-status"><i class="fas fa-info-circle"></i> {{ event.get_status_display }}</span>
+            <span class="event-date"><i class="far fa-calendar-alt"></i> {{ event.start_datetime|date:"d.m.Y H:i" }}</span>
+            {% if event.created_by %}
+            <span class="event-author"><i class="fas fa-user"></i> Организатор: {{ event.created_by.username }}</span>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <article class="event-content">
+        <!-- Изображение мероприятия -->
+        <div class="event-image-container">
+            {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+            {% else %}
+                <div class="event-image-placeholder">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Описание мероприятия -->
+        <div class="event-description">
+            <h2><i class="fas fa-align-left"></i> Описание</h2>
+            {{ event.description|linebreaks }}
+        </div>
+
+        <!-- Информация о времени -->
+        <div class="event-time-info">
+            <h2><i class="far fa-clock"></i> Время проведения</h2>
+            <div class="time-grid">
+                <div class="time-item">
+                    <span class="time-label">Начало:</span>
+                    <span class="time-value">{{ event.start_datetime|date:"d E Y, H:i" }}</span>
+                </div>
+                <div class="time-item">
+                    <span class="time-label">Окончание:</span>
+                    <span class="time-value">{{ event.end_datetime|date:"d E Y, H:i" }}</span>
+                </div>
+                {% if event.registration_deadline %}
+                <div class="time-item">
+                    <span class="time-label">Регистрация до:</span>
+                    <span class="time-value">{{ event.registration_deadline|date:"d E Y, H:i" }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Место проведения -->
+        <div class="event-location">
+            <h2><i class="fas fa-map-marker-alt"></i> Место проведения</h2>
+            <div class="location-info">
+                <p><strong>{{ event.location }}</strong></p>
+                <p>{{ event.address }}</p>
+                {% if event.online_event %}
+                <p class="online-info">
+                    <i class="fas fa-globe"></i> 
+                    {% if event.online_link %}
+                    <a href="{{ event.online_link }}" target="_blank">Онлайн-участие</a>
+                    {% else %}
+                    Онлайн-мероприятие
+                    {% endif %}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Контактная информация -->
+        <div class="event-contacts">
+            <h2><i class="fas fa-address-card"></i> Контакты</h2>
+            <div class="contacts-grid">
+                <div class="contact-item">
+                    <span class="contact-label">Организатор:</span>
+                    <span class="contact-value">{{ event.organizer }}</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Email:</span>
+                    <span class="contact-value">{{ event.contact_email }}</span>
+                </div>
+                {% if event.contact_phone %}
+                <div class="contact-item">
+                    <span class="contact-label">Телефон:</span>
+                    <span class="contact-value">{{ event.contact_phone }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+
+    <!-- Кнопки действий -->
+    <div class="event-actions">
+        <a href="{% url 'events:events' %}" class="btn-action">
+            <i class="fas fa-arrow-left"></i> Все мероприятия
+        </a>
+        {% if request.user == event.created_by or request.user.is_staff %}
+        <a href="{% url 'events:edit_event' event.slug %}" class="btn-action btn-edit">
+            <i class="fas fa-edit"></i> Редактировать
+        </a>
+        <a href="{% url 'events:delete_event' event.slug %}" class="btn-action btn-delete">
+            <i class="fas fa-trash-alt"></i> Удалить
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

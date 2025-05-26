@@ -21,7 +21,7 @@
     display: block;
     width: 100px;
     height: 4px;
-    background: #e74c3c;
+    background: #3498db;
     margin: 15px auto 0;
 }
 
@@ -71,7 +71,6 @@
     transition: transform 0.5s ease;
 }
 
-/* Плейсхолдер для отсутствующего изображения */
 .event-image-placeholder {
     width: 100%;
     height: 100%;
@@ -80,44 +79,31 @@
     justify-content: center;
     color: #ccc;
     font-size: 3rem;
-    background: linear-gradient(45deg, #f5f5f5, #e0e0e0);
 }
 
-/* Бейдж типа мероприятия */
+.event-card:hover .event-image {
+    transform: scale(1.1);
+}
+
+/* Значок типа мероприятия */
 .event-type-badge {
     position: absolute;
     top: 15px;
-    right: 15px;
+    left: 15px;
+    background: #3498db;
+    color: white;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 0.8rem;
-    font-weight: bold;
-    color: white;
     text-transform: uppercase;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Цвета для разных типов мероприятий */
-.event-type-badge.conf {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-}
-.event-type-badge.sem {
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-}
-.event-type-badge.work {
-    background: linear-gradient(135deg, #f39c12, #e67e22);
-}
-.event-type-badge.exh {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-}
-.event-type-badge.conc {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
-}
-.event-type-badge.oth {
-    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
-}
+.event-type-badge.вебинар { background: #9b59b6; }
+.event-type-badge.семинар { background: #27ae60; }
+.event-type-badge.конференция { background: #e67e22; }
+/* Добавь нужные классы, соответствующие типам событий */
 
-/* Контент карточки */
+/* Контент мероприятия */
 .event-content {
     padding: 25px;
     flex-grow: 1;
@@ -126,39 +112,27 @@
 }
 
 .event-datetime {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     color: #7f8c8d;
     font-size: 0.9rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.event-datetime i {
-    color: #e74c3c;
-    width: 16px;
-    text-align: center;
-}
-
-.event-card h3 {
+.event-content h3 {
     color: #2c3e50;
     margin-bottom: 15px;
     font-size: 1.4rem;
 }
 
 .event-location {
+    font-size: 0.9rem;
+    color: #7f8c8d;
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: #34495e;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-}
-
-.event-location i {
-    color: #3498db;
-    width: 16px;
-    text-align: center;
+    gap: 6px;
+    margin-bottom: 10px;
 }
 
 .event-content p {
@@ -168,16 +142,14 @@
     flex-grow: 1;
 }
 
-/* Футер карточки */
 .event-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
 }
 
 .event-details-btn {
-    color: #e74c3c;
+    color: #3498db;
     text-decoration: none;
     font-weight: 600;
     display: inline-flex;
@@ -191,7 +163,7 @@
 }
 
 .event-details-btn:hover {
-    color: #c0392b;
+    color: #2980b9;
 }
 
 .event-details-btn:hover i {
@@ -199,49 +171,21 @@
 }
 
 .event-status {
-    padding: 6px 12px;
-    border-radius: 20px;
     font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
     font-weight: bold;
 }
 
 .event-status.upcoming {
-    background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
-    color: #27ae60;
+    background: #2ecc71;
+    color: white;
 }
 
 .event-status.past {
-    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
-    color: #e74c3c;
-}
-
-/* Кнопка добавления мероприятия */
-.add-event-container {
-    max-width: 1200px;
-    margin: 40px auto 0;
-    padding: 0 20px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.add-event-btn {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    display: inline-block;
-}
-
-.add-event-btn:hover {
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: #bdc3c7;
+    color: #2c3e50;
 }
 
 /* Пагинация */
@@ -263,9 +207,38 @@
 }
 
 .page-link:hover, .page-link.active {
-    background: #e74c3c;
+    background: #3498db;
     color: white;
-    border-color: #e74c3c;
+    border-color: #3498db;
+}
+
+/* Кнопка добавления мероприятия */
+.add-event-container {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-event-btn {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.add-event-btn:hover {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Адаптивность */
@@ -273,11 +246,11 @@
     .events-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .events-title {
         font-size: 2rem;
     }
-    
+
     .event-image-container {
         height: 200px;
     }
@@ -287,14 +260,8 @@
     .event-image-container {
         height: 180px;
     }
-    
+
     .event-content {
         padding: 15px;
-    }
-    
-    .event-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
     }
 }

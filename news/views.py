@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from re import template
 from django.shortcuts import get_object_or_404, redirect, render
 from pkg_resources import parse_requirements
@@ -29,17 +29,27 @@ class NewsHome(ListView): # Переход на страницу новосте�
     def get_queryset(self):
         return News.published.all()
     
-def show_news_post(request, news_post_slug): # Переход на конкретную новость
-    news_post = get_object_or_404(News, slug=news_post_slug)
-    data = {
-        'title' : news_post.title,
-        'news': news_post,
-        'cat_selected': 1,
-    }
-    return render(request, 'news/news_post.html', data)
+# def show_news_post(request, news_post_slug): # Переход на конкретную новость
+#     news_post = get_object_or_404(News, slug=news_post_slug)
+#     data = {
+#         'title' : news_post.title,
+#         'news': news_post,
+#         'cat_selected': 1,
+#     }
+#     return render(request, 'news/news_post.html', data)
 
 
+class NewsDetail(DetailView):  # Класс для отображения отдельной новости
+    model = News
+    template_name = 'news/news_post.html'
+    context_object_name = 'news'
+    slug_url_kwarg = 'news_post_slug'  # имя параметра из URL
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.object.title
+        context['cat_selected'] = 1
+        return context
 
 
 
@@ -73,12 +83,10 @@ class AddNewsPost(CreateView):
     # Присвоение автора к новости 63 вид 7:44
     # Функция вызвается если форма проверена и заполнена  
     def form_valid(self, form):
-        # Создадим объект новой записи (без добаление в бд)
-        w = form.save(commit=False)
-        # получение текущего пользоватьеля и происвоение его новости
-        w.user = self.request.user
-        
-        return super().form_valid(form)
+        news = form.save(commit=False)
+        news.user = self.request.user
+        news.save()  # теперь вызовется твой кастомный save() и сработает генерация slug
+        return redirect(self.success_url)
 
 
 class EditNewsPost(UpdateView):

@@ -1,6 +1,11 @@
+from django.urls import reverse
+from django.utils.text import slugify
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+#Переводим кирилицу в латиницу для slug
+from transliterate import translit
+
 
 class Event(models.Model):
     class Status(models.IntegerChoices):
@@ -8,6 +13,7 @@ class Event(models.Model):
         PUBLISHED = 1, 'Опубликовано'
         CANCELLED = 2, 'Отменено'
         COMPLETED = 3, 'Завершено'
+
 
     class EventType(models.TextChoices):
         CONFERENCE = 'CONF', _('Конференция')
@@ -50,11 +56,11 @@ class Event(models.Model):
     
     # Визуальные элементы
     image = models.ImageField(
-        upload_to="events/%Y/%m/",
+        upload_to="events/%Y/",
         blank=True,
         null=True,
         #verbose_name - читаемое название в админке
-        verbose_name="Изображение"
+        verbose_name="Фото"
     )
     
     # Настройки
@@ -86,6 +92,9 @@ class Event(models.Model):
             models.Index(fields=['event_type']),
         ]
     
+    def get_absolute_url(self):
+        return reverse("events:event_detail", kwargs={"event_slug": self.slug}) #urls
+
     def __str__(self):
         return f"{self.title} ({self.get_event_type_display()})"   # Отображение в админке
     
@@ -97,3 +106,20 @@ class Event(models.Model):
     @property
     def duration(self):
         return self.end_datetime - self.start_datetime # Длительность мероприятия
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            if self.title:
+                # Транслитерируем кириллицу в латиницу
+                slug_base = translit(self.title, 'ru', reversed=True)
+                self.slug = slugify(slug_base)
+            else:
+                import uuid
+                self.slug = str(uuid.uuid4())[:8]
+
+            original_slug = self.slug
+            counter = 1
+            while Event.objects.filter(slug=self.slug).exists():
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
+        super().save(*args, **kwargs)

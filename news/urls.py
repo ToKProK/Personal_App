@@ -27,7 +27,7 @@ app_name = "news" # ВАЖНО
 
 urlpatterns = [
     path('news/add_news/', views.AddNewsPost.as_view(), name='add_news'),
-    path('news/<slug:news_post_slug>/', views.show_news_post, name='show_news'),
+    path('news/<slug:news_post_slug>/', views.NewsDetail.as_view(), name='show_news'),
     path('news/', views.NewsHome.as_view(), name='news'),
     path('news/edit/<slug:slug>/', views.EditNewsPost.as_view(), name='edit_news'),
     path('news/delete/<slug:slug>/', views.NewsDeleteView.as_view(), name='delete_news'),

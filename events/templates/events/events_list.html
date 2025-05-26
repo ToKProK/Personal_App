@@ -3,15 +3,15 @@
 {% load static %}
 {% block events_css %}
     <!-- Подключаем специфичные стили для страницы мероприятий -->
-    <link type="text/css" href="{% static 'events/css/events_style.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'events/css/events_list.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 <div class="add-event-container">
-    {% comment %} {% if perms.events.add_event %}
+    {% if perms.events.add_event %}
     <a href="{% url 'events:add_event' %}" class="add-event-btn">Добавить мероприятие</a>
-    {% endif %} {% endcomment %}
+    {% endif %}
 </div>
 <div class="events-container">
     <h1 class="events-title">Ближайшие мероприятия</h1>
