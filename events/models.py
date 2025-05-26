@@ -1,0 +1,99 @@
+from django.db import models
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+
+class Event(models.Model):
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+        CANCELLED = 2, 'Отменено'
+        COMPLETED = 3, 'Завершено'
+
+    class EventType(models.TextChoices):
+        CONFERENCE = 'CONF', _('Конференция')
+        SEMINAR = 'SEM', _('Семинар')
+        WORKSHOP = 'WORK', _('Мастер-класс')
+        EXHIBITION = 'EXH', _('Выставка')
+        CONCERT = 'CONC', _('Концерт')
+        OTHER = 'OTH', _('Другое')
+
+    # Основная информация
+    title = models.CharField(max_length=255, verbose_name="Название мероприятия")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    event_type = models.CharField(
+        max_length=4,
+        choices=EventType.choices,
+        default=EventType.OTHER,
+        verbose_name="Тип мероприятия"
+    )
+    
+    # Даты и время
+    start_datetime = models.DateTimeField(verbose_name="Дата и время начала")
+    end_datetime = models.DateTimeField(verbose_name="Дата и время окончания")
+    registration_deadline = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Крайний срок регистрации"
+    )
+    
+    # Место проведения
+    location = models.CharField(max_length=255, verbose_name="Место проведения")
+    address = models.TextField(verbose_name="Адрес")
+    online_event = models.BooleanField(default=False, verbose_name="Онлайн-мероприятие")
+    online_link = models.URLField(blank=True, null=True, verbose_name="Ссылка для онлайн-участия")
+    
+    # Организационная информация
+    organizer = models.CharField(max_length=255, verbose_name="Организатор")
+    contact_email = models.EmailField(verbose_name="Контактный email")
+    contact_phone = models.CharField(max_length=20, blank=True, verbose_name="Контактный телефон")
+    
+    # Визуальные элементы
+    image = models.ImageField(
+        upload_to="events/%Y/%m/",
+        blank=True,
+        null=True,
+        #verbose_name - читаемое название в админке
+        verbose_name="Изображение"
+    )
+    
+    # Настройки
+    #Значение по умолчанию
+    is_published = models.BooleanField(
+        choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+        default=Status.PUBLISHED,
+        verbose_name="Статус"
+    )
+    
+    # Системные поля
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")   # Автоматически при создании
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")  # Автоматически при обновлении
+    created_by = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.SET_NULL, # При удалении пользователя поле станет NULL
+        null=True,
+        related_name='created_events',  # Обратная связь: user.created_events.all()
+        verbose_name="Создатель"
+    )
+    
+    class Meta:
+        verbose_name = "Мероприятие" # Название в единственном числе
+        verbose_name_plural = "Мероприятия" # Название во множественном числе
+        ordering = ['start_datetime']   # Сортировка по умолчанию
+        indexes = [  # Индексы для ускорения запросов
+            models.Index(fields=['start_datetime']),
+            models.Index(fields=['is_published']),
+            models.Index(fields=['event_type']),
+        ]
+    
+    def __str__(self):
+        return f"{self.title} ({self.get_event_type_display()})"   # Отображение в админке
+    
+    @property
+    def is_upcoming(self):
+        from django.utils import timezone
+        return self.start_datetime > timezone.now() # True если мероприятие в будущем
+    
+    @property
+    def duration(self):
+        return self.end_datetime - self.start_datetime # Длительность мероприятия

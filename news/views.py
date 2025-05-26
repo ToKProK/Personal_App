@@ -25,7 +25,7 @@ class NewsHome(ListView): # Переход на страницу новосте�
     model = News
     template_name = 'news/news.html'
     context_object_name = 'news_posts'
-    paginate_by = 6 # Пашинация (страницы) # 58
+    paginate_by = 6 # Пагинация (страницы) # 58
     def get_queryset(self):
         return News.published.all()
     

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block events_css %}
+    <!-- Подключаем специфичные стили для страницы мероприятий -->
+    <link type="text/css" href="{% static 'events/css/events_style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="add-event-container">
+    {% comment %} {% if perms.events.add_event %}
+    <a href="{% url 'events:add_event' %}" class="add-event-btn">Добавить мероприятие</a>
+    {% endif %} {% endcomment %}
+</div>
+<div class="events-container">
+    <h1 class="events-title">Ближайшие мероприятия</h1>
+    
+    <!-- Блок мероприятий -->
+    <div class="events-grid">
+        {% for event in events %}
+        <!-- Динамически генерируемые мероприятия -->
+        <article class="event-card">
+            <div class="event-image-container">
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+                {% else %}
+                    <div class="event-image-placeholder">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                {% endif %}
+                <div class="event-type-badge {{ event.event_type|lower }}">
+                    {{ event.get_event_type_display }}
+                </div>
+            </div>
+            <div class="event-content">
+                <div class="event-datetime">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>{{ event.start_datetime|date:"d E Y" }}</span>
+                    <i class="far fa-clock"></i>
+                    <span>{{ event.start_datetime|time:"H:i" }}</span>
+                </div>
+                <h3>{{ event.title }}</h3>
+                <div class="event-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>
+                        {% if event.online_event %}
+                            Онлайн
+                        {% else %}
+                            {{ event.location }}
+                        {% endif %}
+                    </span>
+                </div>
+                <p>{{ event.description|linebreaks|truncatechars:150 }}</p>
+                <div class="event-footer">
+                    <a href="{{ event.get_absolute_url }}" class="event-details-btn">
+                        Подробнее <i class="fas fa-arrow-right"></i>
+                    </a>
+                    {% if event.is_upcoming %}
+                        <span class="event-status upcoming">Предстоит</span>
+                    {% else %}
+                        <span class="event-status past">Прошедшее</span>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="no-events">
+            <p>Мероприятий пока нет.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="page-link">Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Предыдущая</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a href="?page={{ num }}" class="page-link active">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Последняя</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

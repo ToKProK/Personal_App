@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import news.urls
-import users
 import users.urls
+import events.urls
 #from users.views import Register
 
 from main import views
@@ -32,4 +32,5 @@ urlpatterns = [
     #path('register/', Register.as_view(), name='register'),
     path('users/', include('users.urls', namespace='users')),
     path('', include(news.urls, namespace='news')),
+    path('', include(events.urls, namespace='events')),
 ]
