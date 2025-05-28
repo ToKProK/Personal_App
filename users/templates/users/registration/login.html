@@ -1,16 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
+{% block main_css %}
+<link type="text/css" href="{% static 'users/css/login.css' %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
-<h1>Авторизация</h1>
+<div class="login-container">
+    <h1>Авторизация</h1>
 
-<form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ next }}" />
-    <div class="form-error">{{ form.non_field_errors }}</div>
-    {% for f in form %}
-    <p><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}</p>
-    <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
-    <p><button type="submit">Войти</button></p>
-</form>
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+
+        {% if form.non_field_errors %}
+            <div class="form-error-global">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        {% for f in form %}
+            <div class="form-group">
+                <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                {{ f }}
+                {% if f.errors %}
+                    <div class="form-error">{{ f.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn">Войти</button>
+    </form>
+</div>
 {% endblock %}

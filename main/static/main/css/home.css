@@ -1,0 +1,76 @@
+.home-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .card {
+    background: #f0f4f8;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .card .btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  
+  .section-divider {
+    border-top: 1px solid #ccc;
+    margin: 2rem 0;
+  }
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .events-list .event-item {
+    background: #eaf3fc;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+  }
+  .grid-cards {
+    display: flex;
+    flex-direction: column; /* вертикальный список */
+    gap: 3rem; /* расстояние между карточками */
+    margin-bottom: 2rem;
+  }
+  .card {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Более мягкая, но заметная тень */
+  }
+  p {
+    margin-bottom: 1.5rem; /* или любое другое значение, которое тебе нравится */
+  }

@@ -2,7 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render 
 from main.forms import UploadFileForm
+
 # Create your views here.
+@login_required
 def index(request):
     return render(request, 'main/home.html')
 
@@ -19,6 +21,7 @@ def about(request):
         form = UploadFileForm()
     return render(request, 'main/about.html', {'form' : form,})
 
+@login_required
 def handle_uploaded_file(f): # 48
     with open(f"images_about/{f.name}", "wb+") as destination:
         for chunk in f.chunks():

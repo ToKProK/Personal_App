@@ -1,11 +1,40 @@
 {% extends "base.html" %}
-{% block content %} 
-<h1 >Главная</h1> 
-    <hr>
-    {% if user.is_authenticated %} 
-        <a href="{% url 'users:logout' %}">Logout</a>
-    {% else %}
-        <a href="{% url 'users:login' %}">Login</a>  | 
-        {% comment %} <a href="{% url 'users:register' %}">Register</a> {% endcomment %}
+{% load static %}
+
+{% block main_css %}
+<link type="text/css" href="{% static 'main/css/home.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+{% block content %}
+<div class="home-container">
+  <h1>Добро пожаловать в систему управления "Весь мир един"</h1>
+
+  <p>Следите за мероприятиями, читайте новости и управляйте своей активностью.</p>
+
+
+  <div class="grid-cards">
+    <div class="card">
+      <i class="fas fa-calendar-alt fa-2x"></i>
+      <h2>Мероприятия</h2>
+      <p>Следите за предстоящими событиями и участвуйте в жизни организации.</p>
+      <a href="{% url 'events:events' %}" class="btn">Смотреть</a>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-newspaper fa-2x"></i>
+      <h2>Новости</h2>
+      <p>Актуальная информация и важные обновления.</p>
+      <a href="{% url 'news:news' %}" class="btn">Читать</a>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="card">
+      <i class="fas fa-user-circle fa-2x"></i>
+      <h2>Профиль</h2>
+      <p>Просмотрите личную информацию, историю мероприятий и настройки.</p>
+      <a href="{% url 'users:profile' %}" class="btn">Открыть</a>
+    </div>
     {% endif %}
-{% endblock %}f
+  </div>
+</div>
+{% endblock %}

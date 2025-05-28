@@ -1,0 +1,72 @@
+/* В base.html: <link rel="stylesheet" href="{% static 'css/login.css' %}"> */
+
+.login-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 2rem;
+    border-radius: 12px;
+    background: #f9f9f9;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.login-form .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: #222;
+}
+
+.login-form input.form-input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border 0.3s ease;
+    font-size: 1rem;
+}
+
+.login-form input.form-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.form-error {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+}
+
+.form-error-global {
+    color: #d9534f;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+}

@@ -21,7 +21,7 @@ from django.core.paginator import Paginator
 #     return render(request, 'news.html', context=data)
 
 
-class NewsHome(ListView): # Переход на страницу новостей  #52
+class NewsHome(LoginRequiredMixin,ListView): # Переход на страницу новостей  #52
     model = News
     template_name = 'news/news.html'
     context_object_name = 'news_posts'
@@ -39,7 +39,7 @@ class NewsHome(ListView): # Переход на страницу новосте�
 #     return render(request, 'news/news_post.html', data)
 
 
-class NewsDetail(DetailView):  # Класс для отображения отдельной новости
+class NewsDetail(LoginRequiredMixin,DetailView):  # Класс для отображения отдельной новости
     model = News
     template_name = 'news/news_post.html'
     context_object_name = 'news'
@@ -73,7 +73,7 @@ class NewsDetail(DetailView):  # Класс для отображения отд
 
 
 #@permission_required(perm='news.add_news', raise_exception=True)
-class AddNewsPost(CreateView):
+class AddNewsPost(LoginRequiredMixin,CreateView):
     form_class = AddEditNewsForm
     template_name = 'news/add_news.html'
     success_url = reverse_lazy('news:news')
@@ -89,7 +89,7 @@ class AddNewsPost(CreateView):
         return redirect(self.success_url)
 
 
-class EditNewsPost(UpdateView):
+class EditNewsPost(LoginRequiredMixin,UpdateView):
 
     model = News
     fields = ['title', 'content', 'photo', 'is_published']

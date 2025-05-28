@@ -7,7 +7,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 
-class EventList(ListView): # Переход на страницу новостей  #52
+class EventList(LoginRequiredMixin,ListView): # Переход на страницу новостей  #52
     model = Event
     template_name = 'events/events_list.html'
     context_object_name = 'events'
@@ -15,7 +15,7 @@ class EventList(ListView): # Переход на страницу новосте
 
 
 
-class EventDetail(DeleteView):
+class EventDetail(LoginRequiredMixin,DeleteView):
     model = Event
     template_name = 'events/event_detail.html'
     context_object_name = 'event'
@@ -42,7 +42,7 @@ class EventDetail(DeleteView):
 
 
 
-class AddEvent(CreateView):
+class AddEvent(LoginRequiredMixin,CreateView):
     form_class = AddEditEventForm
     template_name = 'events/add_event.html'
     success_url = reverse_lazy('events:events')
@@ -71,7 +71,7 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             self.request.user.has_perm('events.delete_event')  # Правильное название permission для модели Event
         )
     
-class EditEventPost(UpdateView):
+class EditEventPost(LoginRequiredMixin,UpdateView):
     model = Event
     form_class = AddEditEventForm
     slug_field = "slug"               # ← поле в модели

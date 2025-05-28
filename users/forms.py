@@ -5,7 +5,7 @@ from django import forms
 from django.forms import widgets
 from django.utils.translation import gettext_lazy as _
 User = get_user_model()
-
+from django.contrib.auth.forms import PasswordChangeForm
 
 #Регистрация
 class RegisterUserForm(UserCreationForm):
@@ -49,7 +49,13 @@ class LoginUserForm(AuthenticationForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'password']
- 
+# Смена пароля
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password1 = forms.CharField(label="Новый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password2 = forms.CharField(label="Подтвердите новый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    class Meta:
+        model = get_user_model()
 
  # class UserCreationForm(UserCreationForm):
 #     email = forms.EmailField(
