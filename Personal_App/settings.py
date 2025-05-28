@@ -45,6 +45,7 @@ LOGIN_URL = 'users:login'
 EMAIL_HOST = 'smtp.yourprovider.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Весь Мир Един <no-reply@vesmir-edin.ru>'
 EMAIL_HOST_USER = 'your_email@example.com'
 EMAIL_HOST_PASSWORD = 'your_password'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Данная строка перенаправляет писмо о смене пароля в косоль

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
+{% load group_filters %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,10 +22,14 @@
         <div class="logo-container">
             <span class="logo">Весь Мир Един</span>
             <ul class="nav-links">
+            {% if user.is_authenticated %}
                 <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'news:news' %}">Новости</a></li>
-                <li><a href="{% url 'users:register' %}">Добавление пользователя</a></li>
+                {% if user|has_group:"Администратор"  or user|has_group:"Руководитель" %}
+                    <li><a href="{% url 'users:register' %}">Добавление пользователя</a></li>
+                {% endif %}
                 <li><a href="{% url 'events:events' %}">Мероприятия</a></li>
+            {% endif %}
             </ul>
         </div>
         <div class="user-actions">  <!-- Добавлен новый контейнер -->
