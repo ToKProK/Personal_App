@@ -140,3 +140,36 @@ h2 i {
 .btn-unsubscribe:hover {
     background-color: #c0392b;
 }
+.event-subscribers {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #2b7a78;
+    border-radius: 8px;
+}
+
+.event-subscribers h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.subscribers-list ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.subscribers-list li {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.subscribers-list i {
+    color: #2b7a78;
+    margin-right: 8px;
+    font-size: 18px;
+}

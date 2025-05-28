@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="event-detail-container">
-    <!-- Хлебные крошки -->
+    <!-- Навигация -->
     <nav class="breadcrumbs">
         <a href="{% url 'home' %}">Главная</a>
         <i class="fas fa-chevron-right"></i>
@@ -109,6 +109,28 @@
                 {% endif %}
             </div>
         </div>
+
+
+        <!-- Подписавшиеся участники -->
+        <div class="event-subscribers">
+            <h2><i class="fas fa-users"></i> Участники</h2>
+            <div class="subscribers-list">
+                {% if subscribed_users %}
+                    <ul>
+                        {% for subscribe in subscribed_users %}
+                            <li>
+                                <i class="fas fa-user-circle"></i>
+                                {{ subscribe.user.get_full_name|default:subscribe.user.username }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p><em>Пока никто не подписался на это мероприятие.</em></p>
+                {% endif %}
+            </div>
+        </div>
+
+
     </article>
 
     <!-- Кнопки действий -->
@@ -117,31 +139,33 @@
             <i class="fas fa-arrow-left"></i> Все мероприятия
         </a>
         {% if request.user == event.created_by or request.user.is_staff %}
-        <a href="{% url 'events:edit_event' event.slug %}" class="btn-action btn-edit">
-            <i class="fas fa-edit"></i> Редактировать
-        </a>
-        <a href="{% url 'events:delete_event' event.slug %}" class="btn-action btn-delete">
-            <i class="fas fa-trash-alt"></i> Удалить
-        </a>
-        {% comment %} Подписка к мероприятию {% endcomment %}
-            {% if request.user.is_authenticated %}
-            {% if user_subscribed %}
-            <form method="post" action="{% url 'events:unsubscribe' event.slug %}">
-                {% csrf_token %}
-                <button type="submit" class="btn-unsubscribe">
-                    <i class="fas fa-times"></i> Отписаться
-                </button>
-            </form>
-            {% else %}
-            <form method="post" action="{% url 'events:subscribe' event.slug %}">
-                {% csrf_token %}
-                <button type="submit" class="btn-subscribe">
-                    <i class="fas fa-check"></i> Подписаться
-                </button>
-            </form>
-            {% endif %}
-            {% endif %}
+            <a href="{% url 'events:edit_event' event.slug %}" class="btn-action btn-edit">
+                <i class="fas fa-edit"></i> Редактировать
+            </a>
+            <a href="{% url 'events:delete_event' event.slug %}" class="btn-action btn-delete">
+                <i class="fas fa-trash-alt"></i> Удалить
+            </a>
         {% endif %}
+        
+        {% comment %} Подписка к мероприятию {% endcomment %}
+        {% if request.user.is_authenticated %}
+        {% if user_subscribed %}
+        <form method="post" action="{% url 'events:unsubscribe' event.slug %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-unsubscribe">
+                <i class="fas fa-times"></i> Отписаться
+            </button>
+        </form>
+        {% else %}
+        <form method="post" action="{% url 'events:subscribe' event.slug %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-subscribe">
+                <i class="fas fa-check"></i> Подписаться
+            </button>
+        </form>
+        {% endif %}
+        {% endif %}
+    
     </div>
 </div>
 {% endblock %}

@@ -33,6 +33,10 @@ class EventDetail(DeleteView):
             context['user_subscribed'] = self.object.subscribes.filter(user=self.request.user).exists()
         else:
             context['user_subscribed'] = False
+
+
+        
+        context['subscribed_users'] = self.object.subscribes.select_related('user').all()
         return context
     
 
