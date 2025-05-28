@@ -111,4 +111,32 @@ h2 i {
 .btn-delete {
     background-color: #dc3545;
 }
+.btn-subscribe {
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
 
+.btn-subscribe:hover {
+    background-color: #1e8449;
+}
+
+.btn-unsubscribe {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-unsubscribe:hover {
+    background-color: #c0392b;
+}

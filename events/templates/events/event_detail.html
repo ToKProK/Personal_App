@@ -123,6 +123,24 @@
         <a href="{% url 'events:delete_event' event.slug %}" class="btn-action btn-delete">
             <i class="fas fa-trash-alt"></i> Удалить
         </a>
+        {% comment %} Подписка к мероприятию {% endcomment %}
+            {% if request.user.is_authenticated %}
+            {% if user_subscribed %}
+            <form method="post" action="{% url 'events:unsubscribe' event.slug %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-unsubscribe">
+                    <i class="fas fa-times"></i> Отписаться
+                </button>
+            </form>
+            {% else %}
+            <form method="post" action="{% url 'events:subscribe' event.slug %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-subscribe">
+                    <i class="fas fa-check"></i> Подписаться
+                </button>
+            </form>
+            {% endif %}
+            {% endif %}
         {% endif %}
     </div>
 </div>

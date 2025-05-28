@@ -2,10 +2,10 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _\
 #Переводим кирилицу в латиницу для slug
 from transliterate import translit
-
+from django.contrib.auth import get_user_model
 
 class Event(models.Model):
     class Status(models.IntegerChoices):
@@ -123,3 +123,15 @@ class Event(models.Model):
                 self.slug = f"{original_slug}-{counter}"
                 counter += 1
         super().save(*args, **kwargs)
+
+
+class Subscribe(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='subscribe') #чтобы из пользователя можно было получить все регистрации через user.registrations.all().
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='subscribes')  
+    registered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'event')  # чтобы один пользователь не мог зарегистрироваться дважды
+
+    def __str__(self):
+        return f"{self.user} зарегистрирован на {self.event.title}"

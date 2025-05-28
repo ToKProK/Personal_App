@@ -1,7 +1,8 @@
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
+from django.views import View
 from events.forms import AddEditEventForm
-from .models import Event
-from django.shortcuts import redirect, render
+from .models import Event, Subscribe
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
@@ -25,7 +26,16 @@ class EventDetail(DeleteView):
         context['title'] = self.object.title
         # Можно добавить дополнительные данные в контекст
         context['is_upcoming'] = self.object.is_upcoming
+
+
+        # проверка подписки 
+        if self.request.user.is_authenticated:
+            context['user_subscribed'] = self.object.subscribes.filter(user=self.request.user).exists()
+        else:
+            context['user_subscribed'] = False
         return context
+    
+
 
 
 class AddEvent(CreateView):
@@ -44,6 +54,7 @@ class AddEvent(CreateView):
     
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event  # НЕ вызываем Event(), просто указываем класс модели
+    template_name = 'events/event_confirm_delete.html'
     success_url = reverse_lazy('events:events')  # URL для редиректа после удаления (замени на правильное имя)
     slug_field = 'slug'
     slug_url_kwarg = 'event_slug'
@@ -68,3 +79,30 @@ class EditEventPost(UpdateView):
         'title': "Редактирование мероприятия",
         'button':'Сохранить изменения'
     }
+
+# Представление для фиксации подписки к мероприятию
+class SubscribeCreateView(LoginRequiredMixin, CreateView):
+    model = Subscribe
+    fields = []  # Мы не показываем форму, просто создаём запись
+    http_method_names = ['post']  # Только POST
+
+    def form_valid(self, form):
+        event = Event.objects.get(slug=self.kwargs['event_slug'])
+
+        # Проверка на уже существующую подписку
+        if Subscribe.objects.filter(user=self.request.user, event=event).exists():
+            return redirect(reverse('events:event_detail', kwargs={'event_slug': event.slug}))
+
+        form.instance.user = self.request.user
+        form.instance.event = event
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('events:event_detail', kwargs={'event_slug': self.kwargs['event_slug']})
+    
+class UnsubscribeView(LoginRequiredMixin, View):
+    def post(self, request, event_slug):
+        event = get_object_or_404(Event, slug=event_slug)
+        Subscribe.objects.filter(user=request.user, event=event).delete()
+        return redirect(reverse('events:event_detail', kwargs={'event_slug': event_slug}))
+    
