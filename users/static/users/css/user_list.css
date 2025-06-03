@@ -144,3 +144,8 @@
     color: inherit;           /* при наведении оставляем цвет без изменений */
     text-decoration: none;    /* и подчеркивание не показываем */
   }
+  .add-user-btn {
+    margin-bottom: 30px; /* можно увеличить или уменьшить значение по желанию */
+    display: inline-block; /* чтобы margin-bottom работал корректно у <a> */
+    text-decoration: none;
+}

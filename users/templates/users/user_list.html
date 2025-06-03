@@ -10,7 +10,9 @@
 {% block content %}
 <div class="user-list-container">
     <h1 class="events-title">Пользователи</h1>
-
+    <a href="{% url 'users:register' %}" class="filter-btn add-user-btn">
+        <i class="fas fa-user-plus"></i> Добавить пользователя
+    </a>
     <!-- Форма поиска и фильтрации -->
     <form method="get" class="user-filter-form">
         <input type="text" name="q" placeholder="Поиск по имени или email..." value="{{ q }}">
