@@ -14,6 +14,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import LoginUserForm, RegisterUserForm, UserPasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib import messages
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -26,7 +27,7 @@ class RegisterUser(LoginRequiredMixin,CreateView):
     form_class = RegisterUserForm
     template_name = "registration/register.html"
     extra_context = {"title":"Регистрация"}
-    success_url = reverse_lazy("users:login")
+    success_url = reverse_lazy("users:register")
     def form_valid(self, form):
         user = form.save(commit=False)
         password = form.cleaned_data.get('password1')  # или как у тебя называется поле пароля
@@ -52,6 +53,7 @@ class RegisterUser(LoginRequiredMixin,CreateView):
             [user.email],
             fail_silently=False,
         )
+        messages.success(self.request, f"Пользователь {user.username} успешно зарегистрирован(а)!")
         return super().form_valid(form)
 
 

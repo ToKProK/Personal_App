@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -79,6 +80,7 @@ class AddNewsPost(LoginRequiredMixin,CreateView):
     success_url = reverse_lazy('news:news')
     extra_context = {
         'title': "Добавление новости",
+        'button': "Опубликовать",
     }
     # Присвоение автора к новости 63 вид 7:44
     # Функция вызвается если форма проверена и заполнена  
@@ -86,6 +88,8 @@ class AddNewsPost(LoginRequiredMixin,CreateView):
         news = form.save(commit=False)
         news.user = self.request.user
         news.save()  # теперь вызовется твой кастомный save() и сработает генерация slug
+
+        messages.success(self.request, "Новость успешно добавлена!") 
         return redirect(self.success_url)
 
 
@@ -100,7 +104,13 @@ class EditNewsPost(LoginRequiredMixin,UpdateView):
 
     extra_context = {
         'title': "Редактирование новости",
+        'button': "Сохранить",
     }
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Новость успешно обновлена!")
+        return response
 
 
 class NewsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -114,3 +124,6 @@ class NewsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             self.request.user.is_superuser or        # Админ
             self.request.user.has_perm('news.delete_news')  # Редактор
         )
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Новость успешно удалена!")
+        return super().delete(request, *args, **kwargs)

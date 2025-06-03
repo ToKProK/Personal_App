@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from events.forms import AddEditEventForm
@@ -54,6 +55,7 @@ class AddEvent(LoginRequiredMixin,CreateView):
         event = form.save(commit=False)
         event.created_by = self.request.user
         event.save()
+        messages.success(self.request, "Мероприятие успешно добавлено!")
         return redirect(self.success_url)
     
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -70,6 +72,9 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             self.request.user.is_superuser or
             self.request.user.has_perm('events.delete_event')  # Правильное название permission для модели Event
         )
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Мероприятие успешно удалено!")
+        return super().delete(request, *args, **kwargs)
     
 class EditEventPost(LoginRequiredMixin,UpdateView):
     model = Event
@@ -83,7 +88,15 @@ class EditEventPost(LoginRequiredMixin,UpdateView):
         'title': "Редактирование мероприятия",
         'button':'Сохранить изменения'
     }
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Мероприятие успешно обновлено!")
+        return response
 
+    def get_success_url(self):
+        # Возвращаем URL детальной страницы события
+        return reverse('events:event_detail', kwargs={'event_slug': self.object.slug})
 # Представление для фиксации подписки к мероприятию
 class SubscribeCreateView(LoginRequiredMixin, CreateView):
     model = Subscribe

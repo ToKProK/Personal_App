@@ -17,6 +17,7 @@
     
 </head>
 <body>
+    
     <!-- Верхняя панель -->
     <nav class="navbar">
         <div class="logo-container">
@@ -25,10 +26,10 @@
             {% if user.is_authenticated %}
                 <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'news:news' %}">Новости</a></li>
-                {% if user|has_group:"Администратор"  or user|has_group:"Руководитель" %}
+                <li><a href="{% url 'events:events' %}">Мероприятия</a></li>
+                {% if user|has_group:"Администратор"  or user|has_group:"Руководитель" or user.is_superuser %}
                     <li><a href="{% url 'users:register' %}">Добавление пользователя</a></li>
                 {% endif %}
-                <li><a href="{% url 'events:events' %}">Мероприятия</a></li>
             {% endif %}
             </ul>
         </div>
@@ -41,6 +42,13 @@
             {% endif %}
         </div>
     </nav>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     {% block content %}
     {% endblock %}
 
