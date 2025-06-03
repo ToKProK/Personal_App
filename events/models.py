@@ -21,6 +21,12 @@ class Event(models.Model):
         WORKSHOP = 'WORK', _('Мастер-класс')
         EXHIBITION = 'EXH', _('Выставка')
         CONCERT = 'CONC', _('Концерт')
+        VOLUNTEERING = 'VOL', _('Волонтёрская акция')
+        CHARITY = 'CHAR', _('Благотворительное мероприятие')
+        ECOLOGY = 'ECO', _('Экологическая акция')
+        CAREER = 'CAREER', _('Карьерное консультирование')
+        SOCIAL = 'SOC', _('Социальное взаимодействие')
+        CULTURE = 'CULT', _('Культурное мероприятие')
         OTHER = 'OTH', _('Другое')
 
     # Основная информация
@@ -28,7 +34,7 @@ class Event(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     description = models.TextField(blank=True, verbose_name="Описание")
     event_type = models.CharField(
-        max_length=4,
+        max_length=8,
         choices=EventType.choices,
         default=EventType.OTHER,
         verbose_name="Тип мероприятия"
@@ -85,7 +91,7 @@ class Event(models.Model):
     class Meta:
         verbose_name = "Мероприятие" # Название в единственном числе
         verbose_name_plural = "Мероприятия" # Название во множественном числе
-        ordering = ['start_datetime']   # Сортировка по умолчанию
+        ordering = ['-start_datetime']   # Сортировка по умолчанию
         indexes = [  # Индексы для ускорения запросов
             models.Index(fields=['start_datetime']),
             models.Index(fields=['is_published']),

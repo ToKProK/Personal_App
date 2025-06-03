@@ -75,7 +75,12 @@
             <h2><i class="fas fa-map-marker-alt"></i> Место проведения</h2>
             <div class="location-info">
                 <p><strong>{{ event.location }}</strong></p>
-                <p>{{ event.address }}</p>
+                <p>
+                    <i class="fas fa-map-pin" style="color: #007bff; margin-right: 6px;"></i>
+                    <a href="https://yandex.ru/maps/?text={{ event.address|urlencode }}" target="_blank" class="event-address-link">
+                        {{ event.address }}
+                    </a>
+                </p>
                 {% if event.online_event %}
                 <p class="online-info">
                     <i class="fas fa-globe"></i> 

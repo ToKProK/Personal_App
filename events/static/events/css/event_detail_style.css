@@ -173,3 +173,14 @@ h2 i {
     margin-right: 8px;
     font-size: 18px;
 }
+.event-location a.event-address-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.event-location a.event-address-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
