@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from Personal_App import settings
 from users.forms import ProfileUserForm, UserCreationForm
 from django.shortcuts import get_object_or_404, render
@@ -17,7 +17,7 @@ from .forms import LoginUserForm, RegisterUserForm, UserPasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.contrib.auth.models import Group
-
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 User = get_user_model()  # Используем текущую модель пользователя
 
@@ -111,3 +111,43 @@ class UserListView(ListView):
 #     model = User
 #     template_name = 'users/user_detail.html'  # Создай такой шаблон
 #     context_object_name = 'user_obj'  # Чтобы в шаблоне обращаться как user_obj
+
+class UserAdminUpdateView(UserPassesTestMixin, UpdateView):
+    model = User
+    template_name = 'users/user_detail.html'
+    context_object_name = 'user_obj'
+    fields = ['username', 'email', 'first_name', 'last_name', 'groups']  # groups работает только если User имеет ManyToMany к Group
+    success_url = reverse_lazy('users:users_list')  # куда редирект после сохранения (замени на нужный URL)
+
+    def test_func(self):
+        # Проверяем, что текущий пользователь руководитель (например, is_staff)
+        return self.request.user.is_staff
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+
+        # Отключаем возможность редактировать определённые поля
+        readonly_fields = ['username', 'first_name', 'last_name']
+        for field in readonly_fields:
+            form.fields[field].disabled = True
+            form.fields[field].widget.attrs.update({'class': 'form-control readonly-field'})
+
+        # Делает поле groups множественным выбором с чекбоксами (можно поиграться)
+        form.fields['groups'].queryset = Group.objects.all()
+        form.fields['groups'].widget.attrs.update({'class': 'form-control'})
+        return form
+
+    def post(self, request, *args, **kwargs):
+        if "delete_user" in request.POST:
+            self.object = self.get_object()
+            self.object.delete()
+            return redirect('users:users_list')  # редирект после удаления
+        return super().post(request, *args, **kwargs)
+
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'users/user_confirm_delete.html'  # Создай этот шаблон
+    success_url = reverse_lazy('users:users_list')  # Перенаправление после удаления
+    def test_func(self):
+        # Только суперпользователь или персонал может удалять
+        return self.request.user.is_superuser or self.request.user.is_staff

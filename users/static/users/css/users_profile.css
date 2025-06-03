@@ -1,4 +1,4 @@
-/* Основной контейнер карточки */
+/* Основной контейнер */
 .profile-container {
     max-width: 800px;
     margin: 40px auto;
@@ -6,23 +6,20 @@
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: #2c3e50;
 }
 
-/* Заголовок */
+/* Заголовок профиля */
 .profile-header {
     text-align: center;
     margin-bottom: 30px;
 }
 
 .profile-title {
+    color: #2c3e50;
     font-size: 2rem;
-    font-weight: 700;
+    margin-bottom: 20px;
     position: relative;
     padding-bottom: 10px;
-    margin-bottom: 20px;
-    color: #2c3e50;
 }
 
 .profile-title::after {
@@ -63,6 +60,7 @@
 
 .avatar-placeholder i {
     font-size: 5rem;
+    color: #7e8a98;
 }
 
 /* Форма */
@@ -97,7 +95,7 @@
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
 }
 
 .profile-form input[type="file"] {
@@ -110,13 +108,6 @@
     border-color: #3498db;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
     outline: none;
-}
-
-/* Ошибки */
-.form-error {
-    color: #e74c3c;
-    font-size: 0.9rem;
-    margin-top: 5px;
 }
 
 /* Кнопки */
@@ -136,7 +127,7 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
 }
 
 .save-btn:hover {
@@ -154,9 +145,9 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s;
     text-decoration: none;
     text-align: center;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .change-password-btn:hover {
@@ -165,17 +156,75 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Кнопка удаления */
+.delete-form {
+    text-align: center;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    max-width: 300px;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.4);
+}
+
+/* Ошибки */
+.form-error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr;
     }
+    
     .form-actions {
         flex-direction: column;
         gap: 15px;
     }
+    
     .profile-container {
         margin: 20px;
         padding: 20px;
     }
+}
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    padding: 14px 30px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;  /* убирает подчёркивание */
+    border: none;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.4);
+}
+.delete-btn i {
+    margin-right: 8px;
 }
