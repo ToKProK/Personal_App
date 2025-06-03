@@ -1,5 +1,6 @@
 from telnetlib import AUTHENTICATION
 from turtle import title
+from django import forms
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -76,7 +77,7 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
         return self.request.user
     
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin,ListView):
     model = User
     template_name = 'users/user_list.html'
     context_object_name = 'users'
@@ -112,7 +113,7 @@ class UserListView(ListView):
 #     template_name = 'users/user_detail.html'  # Создай такой шаблон
 #     context_object_name = 'user_obj'  # Чтобы в шаблоне обращаться как user_obj
 
-class UserAdminUpdateView(UserPassesTestMixin, UpdateView):
+class UserAdminUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = User
     template_name = 'users/user_detail.html'
     context_object_name = 'user_obj'
@@ -132,10 +133,19 @@ class UserAdminUpdateView(UserPassesTestMixin, UpdateView):
             form.fields[field].disabled = True
             form.fields[field].widget.attrs.update({'class': 'form-control readonly-field'})
 
-        # Делает поле groups множественным выбором с чекбоксами (можно поиграться)
-        form.fields['groups'].queryset = Group.objects.all()
-        form.fields['groups'].widget.attrs.update({'class': 'form-control'})
+ # Сделать поле groups множественным выбором с виджетом SelectMultiple
+        form.fields['groups'] = forms.ModelMultipleChoiceField(
+            queryset=Group.objects.all(),
+            required=False,
+            label="Группы пользователя",
+            widget=forms.SelectMultiple(attrs={'class': 'form-control'})
+        )
+
+        # Установить начальные выбранные группы текущего пользователя
+        form.initial['groups'] = self.get_object().groups.all()
+
         return form
+
 
     def post(self, request, *args, **kwargs):
         if "delete_user" in request.POST:
