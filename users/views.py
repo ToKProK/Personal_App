@@ -1,9 +1,10 @@
 from telnetlib import AUTHENTICATION
 from turtle import title
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from Personal_App import settings
 from users.forms import ProfileUserForm, UserCreationForm
 from django.shortcuts import get_object_or_404, render
@@ -15,6 +16,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import LoginUserForm, RegisterUserForm, UserPasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
+from django.contrib.auth.models import Group
+
+
+User = get_user_model()  # Используем текущую модель пользователя
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -69,3 +74,40 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+    
+
+class UserListView(ListView):
+    model = User
+    template_name = 'users/user_list.html'
+    context_object_name = 'users'
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = super().get_queryset().order_by('username')
+        query = self.request.GET.get('q')
+        group = self.request.GET.get('group')
+
+        if query:
+            queryset = queryset.filter(
+                Q(username__icontains=query) |
+                Q(email__icontains=query) |
+                Q(first_name__icontains=query) |
+                Q(last_name__icontains=query)
+            )
+
+        if group:
+            queryset = queryset.filter(groups__name=group)
+
+        return queryset.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q', '')  # Чтобы совпадало с шаблоном
+        context['groups'] = Group.objects.all()
+        context['selected_group'] = self.request.GET.get('group', '')
+        return context
+    
+# class UserDetailView(DetailView):
+#     model = User
+#     template_name = 'users/user_detail.html'  # Создай такой шаблон
+#     context_object_name = 'user_obj'  # Чтобы в шаблоне обращаться как user_obj

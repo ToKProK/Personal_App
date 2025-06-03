@@ -1,0 +1,146 @@
+.user-list-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.user-filter-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.user-filter-form input[type="text"],
+.user-filter-form select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background-color: #3498db;
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #2980b9;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* немного увеличена минимальная ширина */
+    gap: 20px;
+}
+
+.event-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+}
+
+.event-card-content {
+    display: flex;
+    align-items: center; /* Вертикальное выравнивание по центру */
+    gap: 20px; /* Отступ между фото и текстом */
+}
+
+.event-image-container {
+    flex-shrink: 0; /* Не сжимать фото */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* Круглая форма */
+    overflow: hidden;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Подогнать фото по размеру */
+}
+
+.event-image-placeholder i {
+    color: #aaa;
+}
+
+.event-details {
+    flex-grow: 1; /* Занимает всё оставшееся место */
+    min-width: 0; /* Чтобы текст не выходил за пределы */
+    word-wrap: break-word; /* Перенос длинных слов */
+}
+
+.event-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2em;
+}
+
+.event-location {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.page-link {
+    display: inline-block;
+    margin: 0 6px;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.page-link:hover {
+    background-color: #eee;
+}
+
+.page-link.active {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+.full-name {
+    font-size: 0.9em;
+    color: #444;
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.card-link {
+    color: inherit;           /* наследуем цвет от родителя */
+    text-decoration: none;    /* убираем подчеркивание */
+    display: block;           /* чтобы <a> занимал всю карточку */
+  }
+  
+  .card-link:hover {
+    color: inherit;           /* при наведении оставляем цвет без изменений */
+    text-decoration: none;    /* и подчеркивание не показываем */
+  }

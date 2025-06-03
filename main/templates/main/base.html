@@ -13,6 +13,7 @@
     {% block news_post_css %}{% endblock %}
     {% block events_css %}{% endblock %}
     {% block main_css %}{% endblock %}
+    {% block user_css %}{% endblock %}
     
     
 </head>
@@ -27,8 +28,10 @@
                 <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'news:news' %}">Новости</a></li>
                 <li><a href="{% url 'events:events' %}">Мероприятия</a></li>
-                {% if user|has_group:"Администратор"  or user|has_group:"Руководитель" or user.is_superuser %}
+                {% if user|has_group:"Руководитель" or user.is_superuser %}
                     <li><a href="{% url 'users:register' %}">Добавление пользователя</a></li>
+                    <li><a href="{% url 'users:users_list' %}">Пользователи</a></li>
+                    
                 {% endif %}
             {% endif %}
             </ul>

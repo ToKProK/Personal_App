@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block user_css %}
+    <link rel="stylesheet" href="{% static 'users/css/user_list.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="user-list-container">
+    <h1 class="events-title">Пользователи</h1>
+
+    <!-- Форма поиска и фильтрации -->
+    <form method="get" class="user-filter-form">
+        <input type="text" name="q" placeholder="Поиск по имени или email..." value="{{ q }}">
+        <select name="group">
+            <option value="">Все группы</option>
+            {% for group in groups %}
+                <option value="{{ group.name }}" {% if group.name == selected_group %}selected{% endif %}>
+                    {{ group.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="filter-btn"><i class="fas fa-search"></i> Найти</button>
+    </form>
+
+    <!-- Сетка пользователей -->
+    <div class="events-grid">
+        {% for user in users %}
+        <article class="event-card">
+            <a href="{% url 'users:user_detail' user.pk %}" class="card-link">
+                <div class="event-card-content">
+                    <div class="event-image-container">
+                        {% if user.photo %}
+                            <img src="{{ user.photo.url }}" alt="{{ user.username }}" class="user-photo">
+                        {% else %}
+                            <div class="event-image-placeholder">
+                                <i class="fas fa-user-circle fa-3x"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="event-details">
+                        <h3>{{ user.username }}</h3>
+                        <p class="full-name">{{ user.last_name }} {{ user.first_name }}</p>
+                        <div class="event-location">
+                            <i class="fas fa-envelope"></i> <span>{{ user.email }}</span>
+                        </div>
+                        {% if user.groups.all %}
+                        <p><strong>Группы:</strong> {{ user.groups.all|join:", " }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% empty %}
+        <p>Пользователи не найдены.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if q %}&q={{ q }}{% endif %}{% if selected_group %}&group={{ selected_group }}{% endif %}" class="page-link">Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% if selected_group %}&group={{ selected_group }}{% endif %}" class="page-link">Предыдущая</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <span class="page-link active">{{ num }}</span>
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                <a href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}{% if selected_group %}&group={{ selected_group }}{% endif %}" class="page-link">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% if selected_group %}&group={{ selected_group }}{% endif %}" class="page-link">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if q %}&q={{ q }}{% endif %}{% if selected_group %}&group={{ selected_group }}{% endif %}" class="page-link">Последняя</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

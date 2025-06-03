@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block profile_css %}
+<link href="{% static 'users/css/profile.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1 class="profile-title">Профиль пользователя</h1>
+        <div class="profile-avatar">
+            {% if user_obj.photo %}
+                <img src="{{ user_obj.photo.url }}" alt="Фотография {{ user_obj.username }}">
+            {% else %}
+                <div class="avatar-placeholder">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Отображение данных пользователя -->
+    <div class="profile-data">
+        <p><strong>Имя пользователя:</strong> {{ user_obj.username }}</p>
+        <p><strong>Имя:</strong> {{ user_obj.first_name }}</p>
+        <p><strong>Фамилия:</strong> {{ user_obj.last_name }}</p>
+        <p><strong>Email:</strong> {{ user_obj.email }}</p>
+        <!-- Добавь другие поля, если нужно -->
+    </div>
+
+    <!-- Форма редактирования -->
+    <form class="profile-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        <div class="form-grid">
+            {% for field in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                <div class="form-error">{{ field.errors }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-actions">
+            <button class="save-btn" type="submit">Сохранить изменения</button>
+            <a href="{% url 'users:password_change' %}" class="change-password-btn">Изменить пароль</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
