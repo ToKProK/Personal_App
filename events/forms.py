@@ -34,3 +34,14 @@ class AddEditEventForm(forms.ModelForm):
             if value:
                 # Преобразуем значение в нужный формат
                 self.initial[field_name] = value.strftime('%Y-%m-%dT%H:%M')
+
+    # Если мероприятие оффлайн, то адрес обязателен
+    def clean(self):
+        cleaned_data = super().clean()
+        online_event = cleaned_data.get('online_event')
+        address = cleaned_data.get('address')
+
+        # Проверка: если не онлайн-мероприятие, адрес обязателен
+        if not online_event and not address:
+            self.add_error('address', "Укажите адрес для офлайн мероприятия.")
+        return cleaned_data

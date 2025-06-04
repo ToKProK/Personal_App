@@ -121,8 +121,8 @@ class UserAdminUpdateView(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy('users:users_list')  # куда редирект после сохранения (замени на нужный URL)
 
     def test_func(self):
-        # Проверяем, что текущий пользователь руководитель (например, is_staff)
-        return self.request.user.is_staff
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)

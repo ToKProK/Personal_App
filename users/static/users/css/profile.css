@@ -182,3 +182,19 @@
     font-size: 5rem;
     color: #7e8a98;
 }
+/* Специальная обёртка для file input */
+.file-upload-wrapper {
+    overflow: hidden;
+}
+
+/* Контроль ширины для поля выбора файла */
+.file-upload-wrapper input[type="file"] {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 0;
+    box-sizing: border-box;
+}

@@ -51,7 +51,7 @@ class Event(models.Model):
     
     # Место проведения
     location = models.CharField(max_length=255, verbose_name="Место проведения")
-    address = models.TextField(verbose_name="Адрес")
+    address = models.TextField(blank=True, null=True,verbose_name="Адрес")
     online_event = models.BooleanField(default=False, verbose_name="Онлайн-мероприятие")
     online_link = models.URLField(blank=True, null=True, verbose_name="Ссылка для онлайн-участия")
     

@@ -19,6 +19,15 @@
                 </div>
             {% endif %}
         </div>
+    
+        <p class="last-login">
+            Последний вход: 
+            {% if user_obj.last_login %}
+                {{ user_obj.last_login|date:"d.m.Y H:i" }}
+            {% else %}
+                Данных нет
+            {% endif %}
+        </p>
     </div>
 
     <form class="profile-form" method="post" enctype="multipart/form-data">

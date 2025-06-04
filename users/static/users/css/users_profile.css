@@ -228,3 +228,11 @@
 .delete-btn i {
     margin-right: 8px;
 }
+.last-login {
+    color: #7e8a98;       /* светло-серый */
+    font-size: 0.9rem;    /* чуть меньше */
+    font-style: italic;   /* курсив, по желанию */
+    margin-top: 10px;     /* небольшой отступ сверху */
+    text-align: left;     /* выравнивание по левому краю */
+    max-width: 120px;     /* чтобы не растягивалось сильно, можно под размер аватара */
+}
