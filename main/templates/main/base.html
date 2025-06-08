@@ -23,25 +23,30 @@
     <nav class="navbar">
         <div class="logo-container">
             <span class="logo">Весь Мир Един</span>
-            <ul class="nav-links">
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'home' %}">Главная</a></li>
-                <li><a href="{% url 'news:news' %}">Новости</a></li>
-                <li><a href="{% url 'events:events' %}">Мероприятия</a></li>
-                {% if user|has_group:"Руководитель" or user.is_superuser %}
-                    <li><a href="{% url 'users:users_list' %}">Пользователи</a></li>
-                    
-                {% endif %}
-            {% endif %}
-            </ul>
         </div>
-        <div class="user-actions">  <!-- Добавлен новый контейнер -->
-            {% if user.is_authenticated %}
-                <a href="{% url 'users:profile' %}" class="login-btn">Линчный кабинет</a>
-                <a href="{% url 'users:logout' %}" class="login-btn">Выход</a>
-            {% else %}
-                <a href="{% url 'users:login' %}" class="login-btn">Войти</a>
-            {% endif %}
+    
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+    
+        <div class="nav-menu">
+            <ul class="nav-links">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                    <li><a href="{% url 'news:news' %}">Новости</a></li>
+                    <li><a href="{% url 'events:events' %}">Мероприятия</a></li>
+                    {% if user|has_group:"Руководитель" or user.is_superuser %}
+                        <li><a href="{% url 'users:users_list' %}">Пользователи</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+    
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'users:profile' %}" class="login-btn">Личный кабинет</a>
+                    <a href="{% url 'users:logout' %}" class="login-btn">Выход</a>
+                {% else %}
+                    <a href="{% url 'users:login' %}" class="login-btn">Войти</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
     {% if messages %}
@@ -53,6 +58,10 @@
     {% endif %}
     {% block content %}
     {% endblock %}
-
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
