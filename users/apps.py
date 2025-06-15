@@ -8,15 +8,15 @@ class UsersConfig(AppConfig):
         import users.signals
 
 
-def create_default_groups(sender, **kwargs):
-    from django.contrib.auth.models import Group  # Импорт внутри функции, чтобы избежать ошибки
-    groups = ['Руководитель', 'Волонтёр', 'Участник']
-    for group_name in groups:
-        Group.objects.get_or_create(name=group_name)
+# def create_default_groups(sender, **kwargs):
+#     from django.contrib.auth.models import Group  # Импорт внутри функции, чтобы избежать ошибки
+#     groups = ['Руководитель', 'Волонтёр', 'Участник']
+#     for group_name in groups:
+#         Group.objects.get_or_create(name=group_name)
 
-class UsersConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'users'
+# class UsersConfig(AppConfig):
+#     default_auto_field = 'django.db.models.BigAutoField'
+#     name = 'users'
 
-    def ready(self):
-        post_migrate.connect(create_default_groups, sender=self)
+#     def ready(self):
+#         post_migrate.connect(create_default_groups, sender=self)

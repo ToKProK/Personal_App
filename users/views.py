@@ -29,7 +29,7 @@ class LoginUser(LoginView):
 
 #LoginRequiredMixin - не позволяет зати не зарегестрированному пользователю
 #Открывает окно регистрации пользователя
-class RegisterUser(LoginRequiredMixin,CreateView):
+class RegisterUser(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     form_class = RegisterUserForm
     template_name = "registration/register.html"
     extra_context = {"title":"Регистрация"}
@@ -61,7 +61,9 @@ class RegisterUser(LoginRequiredMixin,CreateView):
         )
         messages.success(self.request, f"Пользователь {user.username} успешно зарегистрирован(а)!")
         return super().form_valid(form)
-
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
 
 # ОТкрывает профиль зарегестрированного пользователя
 class ProfileUser(LoginRequiredMixin, UpdateView):
@@ -77,7 +79,8 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
         return self.request.user
     
 
-class UserListView(LoginRequiredMixin,ListView):
+
+class UserListView(LoginRequiredMixin,UserPassesTestMixin,ListView):
     model = User
     template_name = 'users/user_list.html'
     context_object_name = 'users'
@@ -107,6 +110,9 @@ class UserListView(LoginRequiredMixin,ListView):
         context['groups'] = Group.objects.all()
         context['selected_group'] = self.request.GET.get('group', '')
         return context
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
     
 # class UserDetailView(DetailView):
 #     model = User
@@ -158,6 +164,8 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = User
     template_name = 'users/user_confirm_delete.html'  # Создай этот шаблон
     success_url = reverse_lazy('users:users_list')  # Перенаправление после удаления
+    
     def test_func(self):
-        # Только суперпользователь или персонал может удалять
-        return self.request.user.is_superuser or self.request.user.is_staff
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
+    

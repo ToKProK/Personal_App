@@ -43,7 +43,7 @@ class EventDetail(LoginRequiredMixin,DeleteView):
 
 
 
-class AddEvent(LoginRequiredMixin,CreateView):
+class AddEvent(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     form_class = AddEditEventForm
     template_name = 'events/add_event.html'
     success_url = reverse_lazy('events:events')
@@ -57,6 +57,9 @@ class AddEvent(LoginRequiredMixin,CreateView):
         event.save()
         messages.success(self.request, "Мероприятие успешно добавлено!")
         return redirect(self.success_url)
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
     
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event  # НЕ вызываем Event(), просто указываем класс модели
@@ -75,8 +78,11 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Мероприятие успешно удалено!")
         return super().delete(request, *args, **kwargs)
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
     
-class EditEventPost(LoginRequiredMixin,UpdateView):
+class EditEventPost(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Event
     form_class = AddEditEventForm
     slug_field = "slug"               # ← поле в модели
@@ -97,6 +103,9 @@ class EditEventPost(LoginRequiredMixin,UpdateView):
     def get_success_url(self):
         # Возвращаем URL детальной страницы события
         return reverse('events:event_detail', kwargs={'event_slug': self.object.slug})
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
 # Представление для фиксации подписки к мероприятию
 class SubscribeCreateView(LoginRequiredMixin, CreateView):
     model = Subscribe

@@ -27,15 +27,15 @@ class PublishedManager(models.Manager):
 class News(models.Model): # 23 Вид
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
-        PUBLISHED = 1, 'Опубликованно'
-
+        PUBLISHED = 1, 'Опубликовано'
 
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     slug = models.SlugField(max_length=255,unique=True, db_index=True, verbose_name="URL")
     content = models.TextField(blank=True, verbose_name="Описание")# blank=False - поле обязательно для заполнения
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.PUBLISHED, verbose_name="Статус") #38
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                        default=Status.PUBLISHED, verbose_name="Статус") #38
     photo = models.ImageField(upload_to="news_photos/%Y/", default=None, blank=True, null=True, verbose_name="Фото")
     objects = models.Manager()
     published = PublishedManager()

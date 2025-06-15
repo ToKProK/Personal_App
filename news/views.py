@@ -74,7 +74,7 @@ class NewsDetail(LoginRequiredMixin,DetailView):  # Класс для отобр
 
 
 #@permission_required(perm='news.add_news', raise_exception=True)
-class AddNewsPost(LoginRequiredMixin,CreateView):
+class AddNewsPost(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     form_class = AddEditNewsForm
     template_name = 'news/add_news.html'
     success_url = reverse_lazy('news:news')
@@ -91,9 +91,12 @@ class AddNewsPost(LoginRequiredMixin,CreateView):
 
         messages.success(self.request, "Новость успешно добавлена!") 
         return redirect(self.success_url)
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
 
 
-class EditNewsPost(LoginRequiredMixin,UpdateView):
+class EditNewsPost(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 
     model = News
     fields = ['title', 'content', 'photo', 'is_published']
@@ -111,6 +114,9 @@ class EditNewsPost(LoginRequiredMixin,UpdateView):
         response = super().form_valid(form)
         messages.success(self.request, "Новость успешно обновлена!")
         return response
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
 
 
 class NewsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -127,3 +133,7 @@ class NewsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Новость успешно удалена!")
         return super().delete(request, *args, **kwargs)
+    
+    def test_func(self):
+        user = self.request.user
+        return user.is_superuser or user.is_staff or user.groups.filter(name='Руководитель').exists()
